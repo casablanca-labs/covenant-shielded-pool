@@ -1,0 +1,20 @@
+[package]
+license = "MIT"
+name = "apnt-sp1-guest-identity-probe"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "apnt-sp1-guest-identity-probe"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "=1.0.98"
+hex = "=0.4.3"
+sha2 = "=0.10.9"
+# The repo's existing, reviewed prover-backend wrapper. `program_identity`
+# performs SP1 `setup()` and nothing else: it derives a verifying key and
+# constructs no proof.
+apnt-prover-backend-v0 = { path = "../../apnt-prover-backend-v0" }
+sp1-sdk = { version = "=6.3.1", default-features = false, features = ["blocking", "native-gnark"] }

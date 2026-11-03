@@ -1,0 +1,117 @@
+{
+  "license": "MIT",
+  "name": "@bch-cloak/protocol-runtime",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./apnt_cashassembly_compiler_v0": {
+      "types": "./dist/apnt_cashassembly_compiler_v0.d.ts",
+      "import": "./dist/apnt_cashassembly_compiler_v0.js"
+    },
+    "./apnt_pool_action_record_v1": {
+      "types": "./dist/apnt_pool_action_record_v1.d.ts",
+      "import": "./dist/apnt_pool_action_record_v1.js"
+    },
+    "./apnt_pool_action_relation_v1": {
+      "types": "./dist/apnt_pool_action_relation_v1.d.ts",
+      "import": "./dist/apnt_pool_action_relation_v1.js"
+    },
+    "./apnt_pool_action_witness_json_v1": {
+      "types": "./dist/apnt_pool_action_witness_json_v1.d.ts",
+      "import": "./dist/apnt_pool_action_witness_json_v1.js"
+    },
+    "./apnt_pool_bchn_vm": {
+      "types": "./dist/apnt_pool_bchn_vm.d.ts",
+      "import": "./dist/apnt_pool_bchn_vm.js"
+    },
+    "./apnt_pool_contract_v1": {
+      "types": "./dist/apnt_pool_contract_v1.d.ts",
+      "import": "./dist/apnt_pool_contract_v1.js"
+    },
+    "./apnt_pool_dev_projection_v1": {
+      "types": "./dist/apnt_pool_dev_projection_v1.d.ts",
+      "import": "./dist/apnt_pool_dev_projection_v1.js"
+    },
+    "./apnt_pool_dev_verifier_installation_v1": {
+      "types": "./dist/apnt_pool_dev_verifier_installation_v1.d.ts",
+      "import": "./dist/apnt_pool_dev_verifier_installation_v1.js"
+    },
+    "./apnt_pool_frontier_v1": {
+      "types": "./dist/apnt_pool_frontier_v1.d.ts",
+      "import": "./dist/apnt_pool_frontier_v1.js"
+    },
+    "./apnt_pool_genesis_builder_v1": {
+      "types": "./dist/apnt_pool_genesis_builder_v1.d.ts",
+      "import": "./dist/apnt_pool_genesis_builder_v1.js"
+    },
+    "./apnt_pool_genesis_v1": {
+      "types": "./dist/apnt_pool_genesis_v1.d.ts",
+      "import": "./dist/apnt_pool_genesis_v1.js"
+    },
+    "./apnt_pool_inbox_covenant_v1": {
+      "types": "./dist/apnt_pool_inbox_covenant_v1.d.ts",
+      "import": "./dist/apnt_pool_inbox_covenant_v1.js"
+    },
+    "./apnt_pool_migration_v1": {
+      "types": "./dist/apnt_pool_migration_v1.d.ts",
+      "import": "./dist/apnt_pool_migration_v1.js"
+    },
+    "./apnt_pool_note_v1": {
+      "types": "./dist/apnt_pool_note_v1.d.ts",
+      "import": "./dist/apnt_pool_note_v1.js"
+    },
+    "./apnt_pool_range_record_covenant_v1": {
+      "types": "./dist/apnt_pool_range_record_covenant_v1.d.ts",
+      "import": "./dist/apnt_pool_range_record_covenant_v1.js"
+    },
+    "./apnt_pool_range_record_v1": {
+      "types": "./dist/apnt_pool_range_record_v1.d.ts",
+      "import": "./dist/apnt_pool_range_record_v1.js"
+    },
+    "./apnt_pool_settlement_covenant_v1": {
+      "types": "./dist/apnt_pool_settlement_covenant_v1.d.ts",
+      "import": "./dist/apnt_pool_settlement_covenant_v1.js"
+    },
+    "./apnt_pool_settlement_history_v1": {
+      "types": "./dist/apnt_pool_settlement_history_v1.d.ts",
+      "import": "./dist/apnt_pool_settlement_history_v1.js"
+    },
+    "./apnt_pool_statement_v1": {
+      "types": "./dist/apnt_pool_statement_v1.d.ts",
+      "import": "./dist/apnt_pool_statement_v1.js"
+    },
+    "./apnt_pool_transaction_v1": {
+      "types": "./dist/apnt_pool_transaction_v1.d.ts",
+      "import": "./dist/apnt_pool_transaction_v1.js"
+    },
+    "./apnt_pool_tree_covenants_v1": {
+      "types": "./dist/apnt_pool_tree_covenants_v1.d.ts",
+      "import": "./dist/apnt_pool_tree_covenants_v1.js"
+    },
+    "./apnt_pool_tree_v1": {
+      "types": "./dist/apnt_pool_tree_v1.d.ts",
+      "import": "./dist/apnt_pool_tree_v1.js"
+    },
+    "./apnt_pool_verdict_factory_v1": {
+      "types": "./dist/apnt_pool_verdict_factory_v1.d.ts",
+      "import": "./dist/apnt_pool_verdict_factory_v1.js"
+    },
+    "./bytes": {
+      "types": "./dist/bytes.d.ts",
+      "import": "./dist/bytes.js"
+    }
+  },
+  "scripts": {
+    "build": "node ./scripts/clean-dist.mjs && tsc -p tsconfig.json && node --input-type=module -e \"import {cpSync} from 'node:fs'; cpSync('src/cashassembly', 'dist/cashassembly', {recursive:true});\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@bitauth/libauth": "3.1.0-next.8",
+    "@noble/curves": "1.9.7"
+  }
+}

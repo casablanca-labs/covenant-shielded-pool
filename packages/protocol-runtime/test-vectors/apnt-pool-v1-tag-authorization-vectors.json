@@ -1,0 +1,126 @@
+{
+ "description": "APNT pool v1 tag-authorization message vectors (historical-record; historical-record, historical-record): m = SHA-256('APNT-POOL-v1:dt-auth' || ad || dt_0 || dt_1), its signed hash, BCH Schnorr signatures by the relations' owners over SHA-256(m), the 144-byte per-record signature push, and a pair in ascending ad order with descending m. Test-only synthetic values; no wallet material. Every 8-byte tag is SHA-256(utf8('eng390:' + name))[0:8], non-palindromic.",
+ "producers": {
+  "reference": {
+   "script": "historical-provenance-producers-reference-script",
+   "sha256": "b8a32bdd82df11fa1136ec38fd4009ec87e7cd64db139cd908328e4f3b841b15",
+   "note": "independent Python implementation from design.md and the settlement-custody spec at dc624466 (own secp256k1 and BCH Schnorr; the TypeScript host was not read); argv[1] is the slice-1 vector file, read for its relation records, ad, deployment id and key labels",
+   "rerun": "historical-record (historical-record): historical-record's script (503e0b60...) with its record-length assertion at 314 and the host tag list's rcm and pad in place of pk (pad16, historical-record), nothing else changed, re-run over the regenerated apnt-pool-v1-vectors.json; only tag.prefixFreeWith, messages and orderPair changed"
+  }
+ },
+ "tag": {
+  "ascii": "APNT-POOL-v1:dt-auth",
+  "hex": "41504e542d504f4f4c2d76313a64742d61757468",
+  "prefixFreeWith": [
+   "APNT-POOL-v1:cm",
+   "APNT-POOL-v1:nf",
+   "APNT-POOL-v1:owner",
+   "APNT-POOL-v1:nkc",
+   "APNT-POOL-v1:rt",
+   "APNT-POOL-v1:rcm",
+   "APNT-POOL-v1:pad",
+   "APNT-POOL-v1:node",
+   "APNT-POOL-v1:frontier",
+   "APNT-POOL-v1:action-auth",
+   "APNT-POOL-v1:statement",
+   "APNT-POOL-v1:deployment",
+   "APNT-POOL-v1:migrate",
+   "APNT-POOL-v1:profile",
+   "APNT-POOL-v1:dtag"
+  ],
+  "firingControls": [
+   "APNT-POOL-v1:dt",
+   "APNT-POOL-v1:dt-auth-v2",
+   "APNT-POOL-v1:action-auth-dt"
+  ]
+ },
+ "messages": [
+  {
+   "relation": 0,
+   "ad": "022afc11fdae78aeafdeb8b8036bd86a9d11dff13ebd210b1fb95c830f9da649",
+   "discoveryTags": [
+    "f32eaa6eed118c65",
+    "0c61d842df7d98e4"
+   ],
+   "preimage": "41504e542d504f4f4c2d76313a64742d61757468022afc11fdae78aeafdeb8b8036bd86a9d11dff13ebd210b1fb95c830f9da649f32eaa6eed118c650c61d842df7d98e4",
+   "preimageBytesAfterTag": 48,
+   "sha256Blocks": 2,
+   "m": "f551e6a8d280898ba290254dcaef9723a68d9f47877c227378103235d8501b3d",
+   "signedHash": "c10eff8826560933ee7986d7390c3e9977335baaf05bcbfb86452bbcc007bbc3",
+   "mWithTagsSwapped": "a31d985121cf0011d30a46264ee627ab8210ce932315ed40cc6df510909668de",
+   "mWithFirstTagBitFlipped": "16dc0f1069e808d34deecf1ef4737fee3c994c547cd662ca7f6a1cce92fb4eb7",
+   "signatures": [
+    {
+     "slot": 0,
+     "rk": "025b98be77c1655d47ffe03d9ec0ea471fae77a8eada899f91afc86b198148195e",
+     "signatureOverSignedHash": "afb43ad7ace36f1ced40d147990fadbd27f089940ede3105e0a8f4706708c95f6e606a18e457682773b1a6b0aecadcfccef295c624a2262772ede32b7e62c3d1",
+     "signatureOverSha256Ad": "fe553fc74310036eb966c0e893be19739764933536cd52111f9c691490cf67ecc7a478256e2da78bf783a32a53df123bcee8e81aaea0adcbdfc50dd24f2d4833"
+    },
+    {
+     "slot": 1,
+     "rk": "03cba8704f0d14ea875904b003d0423cc7f95a5ad335182931dd0fe6217859b200",
+     "signatureOverSignedHash": "68f0d305a13b6d8188aeefc6c7c54399f7c87a6611b46955dcfe5236ab7004d4576cd1b838b46c9a8b4237ab7b211741c91dfdf26600654401b7bebad831fb20",
+     "signatureOverSha256Ad": "82087de573187c487c47b5c92b0ed7d001293587f4e1a44c272247dead3cedbc3f4f2f087b2c1abc7e1e60d59195e3ad017240b5fb48f3e48450337e8ce1ae01"
+    }
+   ],
+   "signaturePush": "afb43ad7ace36f1ced40d147990fadbd27f089940ede3105e0a8f4706708c95f6e606a18e457682773b1a6b0aecadcfccef295c624a2262772ede32b7e62c3d168f0d305a13b6d8188aeefc6c7c54399f7c87a6611b46955dcfe5236ab7004d4576cd1b838b46c9a8b4237ab7b211741c91dfdf26600654401b7bebad831fb20f32eaa6eed118c650c61d842df7d98e4"
+  },
+  {
+   "relation": 1,
+   "ad": "fd5b350b7dc6ecdbcdf45e7df11e91b9b69cc624d4d2339dfef0735b04c2b1b8",
+   "discoveryTags": [
+    "8d4beebcfed94782",
+    "e2b6d6878139ac03"
+   ],
+   "preimage": "41504e542d504f4f4c2d76313a64742d61757468fd5b350b7dc6ecdbcdf45e7df11e91b9b69cc624d4d2339dfef0735b04c2b1b88d4beebcfed94782e2b6d6878139ac03",
+   "preimageBytesAfterTag": 48,
+   "sha256Blocks": 2,
+   "m": "cde3308dd8db252b965e6aaeed6085df4232be3c7c0d5743baaf59c2a7499f14",
+   "signedHash": "935740289a3a18e1bb871c64fd35355d79220456122268d8abd29d39052bee40",
+   "mWithTagsSwapped": "e9aaddb75d520d2ff2481d274df70f6f2c1865406391e81c470048594422c9d9",
+   "mWithFirstTagBitFlipped": "94a247780f8f48f0e1aafc4a844ef2e92c6635bb4a438edb847ad37c4058c392",
+   "signatures": [
+    {
+     "slot": 0,
+     "rk": "0313d3c56d418263a65cacd62947fd240a437c95186f7d0176fb695033d239b6ff",
+     "signatureOverSignedHash": "d8b1c9722796f2a5a94beebc05b4c23611d132349dd6d1cbaa606e3eecd77f2fe5b63e6784e69289d5baa89377ec77981a64502f1161378f38d7a46e83a8f3f1",
+     "signatureOverSha256Ad": "8782c5e13846ecdbbc0325e40418323f0111dfa900b0320b5c5728da7b1f34dcd46915ca416e2cca6bd079e61173c7efb5731dd43b54dcb63bef8ade5f3b1ad4"
+    },
+    {
+     "slot": 1,
+     "rk": "03c08089f9fbb5997c9e0a14af1169de33c55cf6b1b4c59f5de832a09ba253dacf",
+     "signatureOverSignedHash": "1cd411d00061561118f59ea6fe4b9ff1d63b492d0dd8ee08ba5b2184c87946d4a83b9b8be92bb64fe22457cf6d926920e1fcc65624befd05003f68ec5686f61f",
+     "signatureOverSha256Ad": "f2f5a9906ccd5e5ea8e1bdd216c47c5014b9673faba81663991f46fb9c0ea938e419b390a2e9b2d34a2095210432143f109952344da817632c87581373370080"
+    }
+   ],
+   "signaturePush": "d8b1c9722796f2a5a94beebc05b4c23611d132349dd6d1cbaa606e3eecd77f2fe5b63e6784e69289d5baa89377ec77981a64502f1161378f38d7a46e83a8f3f11cd411d00061561118f59ea6fe4b9ff1d63b492d0dd8ee08ba5b2184c87946d4a83b9b8be92bb64fe22457cf6d926920e1fcc65624befd05003f68ec5686f61f8d4beebcfed94782e2b6d6878139ac03"
+  }
+ ],
+ "orderPair": {
+  "search": 2,
+  "records": [
+   0,
+   1
+  ],
+  "ads": [
+   "022afc11fdae78aeafdeb8b8036bd86a9d11dff13ebd210b1fb95c830f9da649",
+   "fd5b350b7dc6ecdbcdf45e7df11e91b9b69cc624d4d2339dfef0735b04c2b1b8"
+  ],
+  "discoveryTags": [
+   [
+    "9ebb79cef18151f5",
+    "b4c32f12512589d9"
+   ],
+   [
+    "dc01adad40a03023",
+    "cee044381bde82b1"
+   ]
+  ],
+  "ms": [
+   "64906b6f3b3c978062748445c397122dbb78cfc653e6aaa1cb092cb26e600dff",
+   "598019cd6c4b7c90189482ce6dab63b5d9cfa6892f26e8ea7c8e677e8d7661b1"
+  ],
+  "adAscending": true,
+  "mDescending": true
+ }
+}

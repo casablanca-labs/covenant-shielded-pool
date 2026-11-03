@@ -1,0 +1,28 @@
+{
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "build": "pnpm --filter @bch-cloak/protocol-runtime build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:identities": "vitest run packages/protocol-runtime/test/apnt_pool_verdict_factory_v1.test.ts --maxWorkers=1 --minWorkers=1",
+    "test:rehearsal": "vitest run --maxWorkers=1 --minWorkers=1",
+    "test:build-metadata": "node --test scripts/wallet-build-info.test.mjs",
+    "check:identities": "pnpm build && node scripts/check-identities.mjs",
+    "test:release-identities": "node --test scripts/check-identities.test.mjs"
+  },
+  "devDependencies": {
+    "@bitauth/libauth": "3.1.0-next.8",
+    "@noble/curves": "1.9.7",
+    "@types/node": "25.8.0",
+    "typescript": "5.9.3",
+    "vitest": "2.1.9"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "vitest@2.1.9": "patches/vitest-2.1.9.patch"
+    }
+  },
+  "version": "0.5.0"
+}

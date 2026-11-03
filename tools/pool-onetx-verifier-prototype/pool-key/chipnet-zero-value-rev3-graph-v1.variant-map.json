@@ -1,0 +1,115 @@
+{
+  "schema": "apnt-pool-onetx-graph-variant-map-v1",
+  "label": "RESEARCH PROTOTYPE GRAPH (R-384 construction, not externally reviewed): the per-input rescheduled/raw compile choice of the committed pool-key verifier graph. SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY; never for value",
+  "graph": {
+    "record": "tools/pool-onetx-verifier-prototype/pool-key/chipnet-zero-value-rev3-graph-v1.json",
+    "root": "aa20274d14cb9777914073ff2e53d96af531d9712f50898239188f45223e0d31855387",
+    "lockingsSha256": "454a75987dcc52b32cbe98474210491aa24ad1c92aedae1747b0163f31cdc4ca",
+    "inputs": 11,
+    "cuts": "40,82,117,158,201,238,277,313,348"
+  },
+  "recovery": "ENG-524 (R-475): each committed input source of the ENG-510 pool-key-clean-head run compiled both ways (rescheduled: compileFileBytecodeSize for millerres chunks, compileFileBytecode for GLV; raw: compileFileBytecodeRaw); every committed locking matched exactly one compile. Pinned by ENG-526 (R-478, ARCH-273: keep the graph and factory pins, pin the map beside them).",
+  "variants": [
+    "resched",
+    "resched",
+    "resched",
+    "raw",
+    "resched",
+    "raw",
+    "raw",
+    "raw",
+    "raw",
+    "resched",
+    "resched"
+  ],
+  "rows": [
+    {
+      "input": 0,
+      "variant": "resched",
+      "reschedRedeemBytes": 2035,
+      "rawRedeemBytes": 2337,
+      "reschedLocking": "aa20274d14cb9777914073ff2e53d96af531d9712f50898239188f45223e0d31855387",
+      "rawLocking": "aa209ab20a742d668e2f78799cb16e74c1dc3c6d5821316fb5abe5ea897c289a368487"
+    },
+    {
+      "input": 1,
+      "variant": "resched",
+      "reschedRedeemBytes": 1752,
+      "rawRedeemBytes": 2211,
+      "reschedLocking": "aa201491253a73d8b7a106631d72111e637439ab2e03da4ffaf3cadf14ee80ef508187",
+      "rawLocking": "aa2019bea95763a3845b2cff04bd6e1c1d3421758f741c09735e1f881b2aecae1b7687"
+    },
+    {
+      "input": 2,
+      "variant": "resched",
+      "reschedRedeemBytes": 7252,
+      "rawRedeemBytes": 7393,
+      "reschedLocking": "aa20e6c1e831242407d262531a9681cc2194e8df0c736c715f8b29da839bb4d2a82e87",
+      "rawLocking": "aa20e4ff298d833f535a42254610c0a82c1a35770bf7d9c4ce0d76f896abd5ebe09187"
+    },
+    {
+      "input": 3,
+      "variant": "raw",
+      "reschedRedeemBytes": 7363,
+      "rawRedeemBytes": 7425,
+      "reschedLocking": "aa2009e22bc5a4fe998cbbb5d4f2c63b0d3806d8edd3ffd4583dc18d2857fd7742ae87",
+      "rawLocking": "aa203076641b723349e2ae0d47297e15b62d165c010bb05b23b158986e5fffc60a1687"
+    },
+    {
+      "input": 4,
+      "variant": "resched",
+      "reschedRedeemBytes": 6519,
+      "rawRedeemBytes": 6649,
+      "reschedLocking": "aa20b640732b006b7cae64d36ab7c29173ba85d6d14c550e40f1c588e242dc82c7cc87",
+      "rawLocking": "aa2066ae1cdd9f122f5e669294332e8b55063db3d878f7df74f69989e19e717764ee87"
+    },
+    {
+      "input": 5,
+      "variant": "raw",
+      "reschedRedeemBytes": 7134,
+      "rawRedeemBytes": 7170,
+      "reschedLocking": "aa20cc9144a46c5042df47f2c733c7f665b355eb6cca223b14f55e89323fa8140dde87",
+      "rawLocking": "aa20aa9885876044e159b761453106f15789440662968150d22dcff5553ce0e2a4db87"
+    },
+    {
+      "input": 6,
+      "variant": "raw",
+      "reschedRedeemBytes": 7419,
+      "rawRedeemBytes": 7456,
+      "reschedLocking": "aa202f98d9f85d75b3ead8421e0103bd8f02c3a17523557a787cfb272cc5f7da108987",
+      "rawLocking": "aa205f2a3360da9a600bdf7be3d7f822df5183721d3a8a9074b6190ebf6a02efe53d87"
+    },
+    {
+      "input": 7,
+      "variant": "raw",
+      "reschedRedeemBytes": 6700,
+      "rawRedeemBytes": 6737,
+      "reschedLocking": "aa207e813c8f7218901ca1f7524c199866354f622c5922e11a28d5ec3e22a4b85b8587",
+      "rawLocking": "aa20099ffa2aabaa15f43e6acca8a48df45541c091b4219734a352cee77b5c43292087"
+    },
+    {
+      "input": 8,
+      "variant": "raw",
+      "reschedRedeemBytes": 7072,
+      "rawRedeemBytes": 7107,
+      "reschedLocking": "aa206d7d97d8a0f81660d7f3d1b4ad6c092fb0c5c80f4faca7e0a7da3d921f5df1b787",
+      "rawLocking": "aa20364e5de89c6ba76e349e8e443eff84cf8fc8e8a1b6d829d759c3e386da6e64cb87"
+    },
+    {
+      "input": 9,
+      "variant": "resched",
+      "reschedRedeemBytes": 6530,
+      "rawRedeemBytes": 6659,
+      "reschedLocking": "aa20a4984f95918cda2461267f98049a2272d1a1cb2c9d2b0cdbc16819fd399b875387",
+      "rawLocking": "aa2036d42f7840bef2980146ec3b60a03072cee15a8ae5598cedba4b7e63c0e4376387"
+    },
+    {
+      "input": 10,
+      "variant": "resched",
+      "reschedRedeemBytes": 8489,
+      "rawRedeemBytes": 8146,
+      "reschedLocking": "aa20bce1df4bb980a3b3722eabfeca8dbf5928ad5f803ab15926ba53d7b58f81f86a87",
+      "rawLocking": "aa2058e39c3163633723b5833f8b8dc53d9f37100663dd75bba9726be3273963913087"
+    }
+  ]
+}

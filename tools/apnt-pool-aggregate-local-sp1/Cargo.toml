@@ -1,0 +1,11 @@
+[workspace]
+members = ["program"]
+default-members = ["program"]
+resolver = "2"
+
+# Keep the aggregate core's SP1 patch set. This is a separate workspace so
+# its manifest and lockfile are outside the frozen Chipnet guest-input set.
+[patch.crates-io]
+sha2 = { git = "https://github.com/sp1-patches/RustCrypto-hashes", package = "sha2", tag = "patch-sha2-0.10.9-sp1-6.0.0" }
+substrate-bn = { git = "https://github.com/sp1-patches/bn", package = "substrate-bn-succinct-rs", tag = "patch-0.6.0-sp1-6.2.0" }
+k256 = { git = "https://github.com/sp1-patches/elliptic-curves", package = "k256", tag = "patch-k256-13.4-sp1-6.0.0" }

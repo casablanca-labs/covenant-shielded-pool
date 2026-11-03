@@ -1,0 +1,226 @@
+{
+  "schema": "apnt-pool-onetx-verifier-graph-record-v1",
+  "label": "RESEARCH PROTOTYPE GRAPH (historical-record construction, not externally reviewed) for the Chipnet pool program: SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY; never for value",
+  "program": {
+    "record": "tools/apnt-pool-aggregate-sp1/canonical-build/chipnet-zero-value-rev3-canonical-build-v1.json",
+    "package": "apnt-pool-aggregate-program-chipnet-zero-value-rev3",
+    "programVkeyHash": "00a69d739feae9fecf1ad3db30a73f967912fda951c849e374492f1a14fd7fed",
+    "guestElfSha256": "46092a6935692fb202ed995d49e90a9f5e46eb3f107d56eb0f491dea9e7ce601",
+    "guestElfBytes": 443800
+  },
+  "wrapper": {
+    "sp1Version": "6.3.1",
+    "wrapperVkSha256": "4388a21c687fdd5f218d7e3d13190cac4c5355818d3605fd5fb811df468ee696",
+    "recursionVkeyRootHex": "002f850ee998974d6cc00e50cd0814b098c05bfade466d28573240d057f25352",
+    "s3Le32": "5253f257d0403257286d46defa5bc098b01408cd500ec06c4d9798e90e852f00",
+    "s0": "294383304164817047479262201307377294744606636790968990291760274976595083245"
+  },
+  "generation": {
+    "generator": {
+      "archive": "historical-provenance-generation-generator-archive",
+      "sha256": "a62a65ff00f6082bbfc0d24a67157dbf842dbacb1e68f311946089d778ff1eb4",
+      "revision": "0cff585eff44571bcb6917e006ecdd65446fdfe0"
+    },
+    "compiler": {
+      "archive": "historical-provenance-generation-compiler-archive",
+      "sha256": "35f560686b273206adfc5e6aa4075111aec8eeb542d9721e60db84853dfb9cee",
+      "revision": "9fb14833713449403104c8a77cb10973130993e1"
+    },
+    "tagCommit": "091d709ede9f64962bb0bdf4dd6046131aee10ac",
+    "dependencies": {
+      "@bitauth/libauth": {
+        "version": "3.1.0-next.8",
+        "packageJsonSha256": "6b4e3b7f062b80782c62cb7732ed01571c5f163fd786af877c0ae5fdc33ec65e"
+      },
+      "@noble/curves": {
+        "version": "2.2.0",
+        "packageJsonSha256": "b305a9a8e20df7767458bff98aafb7423cb39e00f543fffea5a9e0b88e0ada9e"
+      }
+    },
+    "typescript": "5.9.3",
+    "driver": "scripts/prepare-gated-driver.mjs (graph expects 12 inputs: the verdict factory is input 11)",
+    "mode": "rekeyed",
+    "cuts": "40,82,117,158,201,238,277,313,348",
+    "environment": {
+      "GATED_MODE": "rekeyed",
+      "GATED_HONEST_VECTORS": "/private/tmp/pool-slice2a-R468/onetx/vectors/L1.vectors.json",
+      "MEASURE_CONTROLS": "0",
+      "GATED_CUTS": "40,82,117,158,201,238,277,313,348",
+      "VERIFIER_DIR": "/private/tmp/pool-slice2a-R468/onetx/g-pool2/input",
+      "FUSE_G2_ENDPOINT": "1",
+      "MILLER_AFFINE_G2": "1",
+      "MILLER_UNIT_LINES": "1",
+      "MILLER_TORUS": "1",
+      "MILLER_PROJECTIVE_VKX": "1",
+      "MILLER_NORMALIZED_PROOF_POINTS": "1",
+      "MILLER_RAW_B_INFINITY": "0",
+      "STAGE_BOUND_LAYOUT": "1",
+      "COVENANT_RESIDUE_LAYOUT": "1",
+      "COVENANT_TOKEN_CHAIN": "0",
+      "MILLER_LINKED_LAYOUT": "1",
+      "MILLER_LINKED_CUTS": "40,82,117,158,201,238,277,313,348",
+      "OP_COST_TARGET": "7950000",
+      "BYTE_BUDGET": "9700",
+      "RESCHEDULE": "on",
+      "INTRATX_BARE": "0",
+      "MEASURE_PREFIX": "/private/tmp/pool-slice2a-R468/onetx/g-pool2/runs/L1-pool-key"
+    },
+    "worktreeHead": "8f9970dad6d3c9fb4ace2586c2d4fa8d6dda5d7f",
+    "worktreeDirty": false,
+    "planningProof": {
+      "label": "L1",
+      "file": "historical-provenance-generation-planningProof-file",
+      "fileSha256": "74ce8fb9b3b56df20291b867b90b2bcc1823056a4de212ea7bf6adf937a5633e",
+      "programVkeyHash": "00a963b10a250de2de04b92d836a852eb0709f62ea9e40d5c191b1c22921fae8",
+      "note": "a retained SP1 6.3.1 wrapper proof of the seal-era aggregate program: a different program, so the terminal must refuse it"
+    }
+  },
+  "graph": {
+    "inputs": 11,
+    "transactionInputs": 12,
+    "factoryInputIndex": 11,
+    "root": "aa20274d14cb9777914073ff2e53d96af531d9712f50898239188f45223e0d31855387",
+    "lockings": [
+      "aa20274d14cb9777914073ff2e53d96af531d9712f50898239188f45223e0d31855387",
+      "aa201491253a73d8b7a106631d72111e637439ab2e03da4ffaf3cadf14ee80ef508187",
+      "aa20e6c1e831242407d262531a9681cc2194e8df0c736c715f8b29da839bb4d2a82e87",
+      "aa203076641b723349e2ae0d47297e15b62d165c010bb05b23b158986e5fffc60a1687",
+      "aa20b640732b006b7cae64d36ab7c29173ba85d6d14c550e40f1c588e242dc82c7cc87",
+      "aa20aa9885876044e159b761453106f15789440662968150d22dcff5553ce0e2a4db87",
+      "aa205f2a3360da9a600bdf7be3d7f822df5183721d3a8a9074b6190ebf6a02efe53d87",
+      "aa20099ffa2aabaa15f43e6acca8a48df45541c091b4219734a352cee77b5c43292087",
+      "aa20364e5de89c6ba76e349e8e443eff84cf8fc8e8a1b6d829d759c3e386da6e64cb87",
+      "aa20a4984f95918cda2461267f98049a2272d1a1cb2c9d2b0cdbc16819fd399b875387",
+      "aa20bce1df4bb980a3b3722eabfeca8dbf5928ad5f803ab15926ba53d7b58f81f86a87"
+    ],
+    "lockingsSha256": "454a75987dcc52b32cbe98474210491aa24ad1c92aedae1747b0163f31cdc4ca",
+    "planningProofUnlockingBytes": [
+      6912,
+      8067,
+      9157,
+      9451,
+      7828,
+      9416,
+      9742,
+      8459,
+      8889,
+      8057,
+      9670
+    ],
+    "generatedSourcesSha256": {
+      "manifest_millerres.json": "3e47ed5b59862e866ad8248e1c1f723517e0451bf8b34f1e6f05fe536b2a6391",
+      "millerres_00.cash": "fa3c75b5e9ee87ded539811a1e056e16ef10bd9ad4810013a191be464607156e",
+      "millerres_01.cash": "3748da4d2b8ef73a6c94ba25873191c54ab6358c01bce1d4c92a6692dbfc6592",
+      "millerres_02.cash": "a59954ea1388c67d6c5b85d0162f13b0e7e4fc5d873e24099baeebd83f79fb65",
+      "millerres_03.cash": "4bbab5a01b91325ad8d532ae48781251f53b5df9a59ac5ba37973ca03c141e48",
+      "millerres_04.cash": "915e6047fbe7e4f69d59b067c2c455489d3f6edef381e30b24f5948120cfea55",
+      "millerres_05.cash": "fc1fb5105a58a8b9d2220c975ae596a394b79cdfe19acce91290ac0208a38570",
+      "millerres_06.cash": "15814f677aa6347ace0596d03f0c49ff2d9a9d7b092e682c550277a931617650",
+      "millerres_07.cash": "f4b6000f64b0e912dc7f62818471a0146bd764b5277656fae7664af8c0383774",
+      "millerres_08.cash": "30a415adf90bfe972d1282aaebe2671a392a5acacf12ad06adac47c0570166ee"
+    }
+  },
+  "controls": {
+    "planningProofAcceptance": [
+      {
+        "index": 0,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 1,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 2,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 3,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 4,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 5,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 6,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 7,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 8,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 9,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 10,
+        "consensus": false,
+        "standard": false
+      }
+    ],
+    "onlyTerminalRefusesThePlanningProof": true,
+    "honestGraphOfThePlanningProofsKey": {
+      "root": "aa20731f5802b9f3a7e897b5fd76292e5e3d56e7ba8c7f22173315969b216a20226787",
+      "generatedSourcesSha256": {
+        "manifest_millerres.json": "f3d425ba9c50fe12686e258fc1e05ca798507458758021be9bc1263ca49ddd2d",
+        "millerres_00.cash": "fa3c75b5e9ee87ded539811a1e056e16ef10bd9ad4810013a191be464607156e",
+        "millerres_01.cash": "3748da4d2b8ef73a6c94ba25873191c54ab6358c01bce1d4c92a6692dbfc6592",
+        "millerres_02.cash": "a59954ea1388c67d6c5b85d0162f13b0e7e4fc5d873e24099baeebd83f79fb65",
+        "millerres_03.cash": "4bbab5a01b91325ad8d532ae48781251f53b5df9a59ac5ba37973ca03c141e48",
+        "millerres_04.cash": "915e6047fbe7e4f69d59b067c2c455489d3f6edef381e30b24f5948120cfea55",
+        "millerres_05.cash": "fc1fb5105a58a8b9d2220c975ae596a394b79cdfe19acce91290ac0208a38570",
+        "millerres_06.cash": "15814f677aa6347ace0596d03f0c49ff2d9a9d7b092e682c550277a931617650",
+        "millerres_07.cash": "f4b6000f64b0e912dc7f62818471a0146bd764b5277656fae7664af8c0383774",
+        "millerres_08.cash": "cb9b8d3b1e779496933a173548399dec2f73bd87e15ea5781e492b28d78561a2"
+      }
+    },
+    "differingGeneratedFiles": [
+      "manifest_millerres.json",
+      "millerres_08.cash"
+    ],
+    "terminalChangedLines": [
+      68
+    ],
+    "everyLockingDiffersFromTheHonestGraph": true,
+    "fixedFactor": {
+      "limbs": [
+        "8961561664566809340068198451183253294255168276742322564830243760340088150538",
+        "21252880607959982137050064162971882540181199084514430269630535705035182860352",
+        "469059496629365136536189601807119742316722828154745140803248951389884748356",
+        "2432568519986194297144546366947752113979243749516793735757557935987338400909",
+        "1209440520977706475198738277492894221056181663632743442986800084249723234401",
+        "4955213681263668129640263341019221770331381617787631554181741387357386982289"
+      ],
+      "relationToPoolKeyPairings": "equal",
+      "relationToPlanningProofKey": "none",
+      "statement": "FE(1 + u·w) of the terminal limbs equals e(alpha, beta)·e(IC0 + s0·IC1, gamma) for the pinned pool program key s0 (noble-curves pairing); it matches no other key tried"
+    }
+  },
+  "waitsForTheRealProof": [
+    "a real pool aggregate proof accepted by every input, the terminal included (both VMs)",
+    "the whole-transaction size with that proof, and the proof-specific density padding",
+    "s1 = mask(SHA-256(runBind32)) read by the pool-mode gate from that proof",
+    "s3 of that proof equal to the pinned SP1 6.3.1 recursion root",
+    "the real-proof controls: tampered and malformed proofs, state corruption, consistent wrong public values, sibling substitution"
+  ]
+}

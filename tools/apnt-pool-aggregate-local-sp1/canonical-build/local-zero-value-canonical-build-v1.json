@@ -1,0 +1,47 @@
+{
+  "schema": "apnt-pool-aggregate-canonical-build-record-v1",
+  "label": "LOCAL 0x99 - SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY",
+  "note": "Separate local 0x99 zero-value simulation guest; reuses the recorded revision-3 action VP under a project-run simulated single-party ceremony. The project could forge proofs; never Chipnet, mainnet, or value.",
+  "record": {
+    "builder": "tools/sp1-canonical-guest-build/canonical-guest-build.sh",
+    "guestKey": "pool-aggregate-local-zero-value",
+    "package": "apnt-pool-aggregate-program-local-zero-value",
+    "binary": "apnt-pool-aggregate-program-local-zero-value",
+    "guestSource": "tools/apnt-pool-aggregate-local-sp1/program/src/main.rs",
+    "cargoFeaturesOnCommandLine": [],
+    "sp1Version": "6.3.1",
+    "containerImage": "ghcr.io/succinctlabs/sp1@sha256:0942a27dbe8e38f4b14f3732e779df4027b17bde93e9fbc9e8c773c15eb63400",
+    "workspaceMountPath": "/root/program",
+    "workspaceDirectoryArgument": "repository-root",
+    "locked": true,
+    "sourceCommit": "ba97d89839c60c49b12c7efc5c0f5bc43b8846e2",
+    "guestInputsManifest": "tools/apnt-pool-aggregate-local-sp1/canonical-build/local-zero-value-guest-inputs-v1.json",
+    "guestInputsManifestSha256": "07151b7862f97f4037dba42a845362124fb480505031a4ee45766fd9851a0661",
+    "guestInputs": {
+      "files": 14,
+      "sha256": "35adcf6b3992c538b253d611cb26351315853d83bb1bfa0bceedcea29095b6f1"
+    },
+    "compiledAllowlist": [
+      "ea3d52d762f394b2959740126c3fb441165236696a02314a19498b48e2f1c1f2"
+    ],
+    "allowlistedVp": {
+      "registryEntry": 1,
+      "registryRevision": 3,
+      "vpBytes": 528,
+      "vpSha256": "35c2bdb2e52ce2f2795e9ef57445a2e11f96836345b3829ebe6520e3603860ff",
+      "profileId": "ea3d52d762f394b2959740126c3fb441165236696a02314a19498b48e2f1c1f2",
+      "label": "SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY"
+    },
+    "buildLabel": "APNT pool aggregate, LOCAL 0x99: SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY; never Chipnet, mainnet or value",
+    "guestElfSha256": "9dc4dc3d9fe043d4acb8b6f1a0eb8dbb2705f19330e924a824de4f7efbf0ccc2",
+    "guestElfBytes": 443696,
+    "programVkeyHash": "008b67415acd3c7ae6e9c2ad0887a6ae6a322c4b1da8b97670b217255f0067ca"
+  },
+  "controls": {
+    "chipnetGuestInputsSha256": "0f7ba23d62a263e200baee3677bc908a5c9c04614a8ebc36afc543247b401e50",
+    "chipnetElfSha256": "46092a6935692fb202ed995d49e90a9f5e46eb3f107d56eb0f491dea9e7ce601",
+    "chipnetProgramVkeyHash": "00a69d739feae9fecf1ad3db30a73f967912fda951c849e374492f1a14fd7fed",
+    "setupCallsThisRound": 2,
+    "proveCallsThisRound": 0
+  }
+}

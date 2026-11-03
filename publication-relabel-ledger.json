@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "publication-relabel-ledger/1",
+  "publicSourceParent": "7a76f74367cc26529327ce5377ea6ac6488d6162",
+  "historicalExportManifest": "export-manifest.json",
+  "historicalExportManifestUnchanged": true,
+  "files": [
+    {
+      "path": "packages/protocol-runtime/test-vectors/apnt-pool-v1-proof-system-registry-rev3-vectors.json",
+      "originalSha256": "d459c6c93fff87af21447245f7205b56311320f138b40967eecc27bf4dd5e4f1",
+      "publishedSha256": "c7a827c6b5d45b6dfb88dbb4ff513b29b9a2d99a492f76b817e1d247a458283d",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        2,
+        6,
+        26,
+        52,
+        60,
+        63
+      ]
+    },
+    {
+      "path": "tools/apnt-pool-aggregate-sp1/canonical-build/chipnet-zero-value-rev3-canonical-build-v1.json",
+      "originalSha256": "0604cbb5b9c7d45d5bec2f7a280d23a831b2fc71b9cd5e21c4b46fee0040e12b",
+      "publishedSha256": "7efcce247693d89e71c711927f3c0c38c98a29dc983944e498adb15f7c1361ee",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        4,
+        66
+      ]
+    },
+    {
+      "path": "tools/pool-onetx-verifier-prototype/pool-key/chipnet-zero-value-rev3-graph-v1.json",
+      "originalSha256": "efe678ead1f51a291a21419a6a0863e13950daa2e33d83daf201d9049fdfe3de",
+      "publishedSha256": "30c0fa0c96cc66bf1fc6d92859867aa15975b7d66b4cd9bdf3abb4d5df8f28c9",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3,
+        20,
+        25,
+        72
+      ]
+    },
+    {
+      "path": "tools/pool-onetx-verifier-prototype/pool-key/local-zero-value-v1-graph.json",
+      "originalSha256": "090c9e3ded12285c8f500aa05a7f1e53a9f8a7647a77236e33161edf44921615",
+      "publishedSha256": "dbde208d3edad701b99815fadfe553304037221a578c5ced13190ef5973a2fcd",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        20,
+        25,
+        30,
+        52
+      ]
+    },
+    {
+      "path": "docs/spec/apnt-pool-operations-harness/spec.md",
+      "originalSha256": "5f4022600dfa48d451436a9ee356782c467f868d408b2f5ea69b4a2f7911ebfe",
+      "publishedSha256": "1e604fa8808c4863dec69ea82182d4046d4c58526df9042e4e82f9fbe80bc5ba",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        31,
+        32,
+        33,
+        34,
+        49,
+        52,
+        53,
+        103,
+        116,
+        139,
+        199,
+        249,
+        281,
+        297,
+        310,
+        327,
+        381,
+        420,
+        450,
+        455,
+        520,
+        536,
+        563,
+        572,
+        577,
+        581,
+        582,
+        592,
+        626,
+        627,
+        631,
+        667,
+        670,
+        722,
+        725,
+        726,
+        790,
+        791,
+        850,
+        851,
+        852,
+        895,
+        967,
+        1001,
+        1007,
+        1010,
+        1012,
+        1172,
+        1201,
+        1202,
+        1206,
+        1248,
+        1250,
+        1253,
+        1258,
+        1378,
+        1379,
+        1503,
+        1548,
+        1577,
+        1582,
+        1609,
+        1629,
+        1630,
+        1632,
+        1634,
+        1646,
+        1648,
+        1649,
+        1650
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/test-vectors/apnt-pool-v1-tag-authorization-vectors.json",
+      "originalSha256": "33faed7bf7a873ba2013899d015a368793cdbf7fafa4fd7524a32136d1176ed2",
+      "publishedSha256": "0c073203f40f470dcc139e1040138621776276098c4e74f4e77a65cb435cd4f6",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        2,
+        5,
+        8
+      ]
+    },
+    {
+      "path": "tools/apnt-pool-aggregate-local-sp1/canonical-build/local-zero-value-setup-provenance-v2.json",
+      "originalSha256": "c5cfeec3ee5f98933c7f393732940aca21a410b527dd269e810532973235bece",
+      "publishedSha256": "4582daa907a5c6a3be81b2ce9a7f06795dab8a96009231c056e0d6989e887a59",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        5,
+        6
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/src/cashassembly/apnt_pool_coin_v1.casm",
+      "originalSha256": "ac403a7aced2c13a1c0517b4d91dc79ae40a6185378ec3f02a6bd852453d02f7",
+      "publishedSha256": "7c4c4058b7f1d3f39e0944f0440d06638a926ad3221aa482bad00c0d842ced7d",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/src/cashassembly/apnt_pool_pending_batch_v1.casm",
+      "originalSha256": "a2101f4103a2446c8752fdd80bcd8668d7536964b9b97a71134bf6c435a5b722",
+      "publishedSha256": "8cc81efa05123da54f84302bff1c4bbdc91cf379a5a14afad85edc46659924df",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3,
+        5,
+        6
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/src/cashassembly/apnt_pool_range_record_v1.casm",
+      "originalSha256": "131f48adabf2f1c4ddb0ed82760058e4b758447ea938a2caad40ce580ac5ad2c",
+      "publishedSha256": "91bcca0f9ba95e527499db86d4086c64bee4646c82460fb1809ed4596ceec76d",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/src/cashassembly/apnt_pool_root_copy_v1.casm",
+      "originalSha256": "a9a8955ab9744071c51a03487d31471a993ebd6452a059d73d0b85399183b8f4",
+      "publishedSha256": "ced85db4f51283456a642ac38a5e784ecaf604e745b204c66990ed3b32bafd57",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/src/cashassembly/apnt_pool_settlement_v1.casm",
+      "originalSha256": "bfb1904a9dc9e2bef9fae3f7fbd1af210745a102760bb3d476669e47878211be",
+      "publishedSha256": "2ea6083b6941d9de4389935e15843af76c8bdf1ff45c1325adc6ffbc9aab7fee",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3,
+        16,
+        29,
+        40,
+        60
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/src/cashassembly/apnt_pool_tree_update_v1.casm",
+      "originalSha256": "59bde760e90a9eddff333c4590e3e974fcaed17f55864cf6120c7541ee616e45",
+      "publishedSha256": "0ac818ce558e9425567784f98edc0d6862b996e4962f21571063f2b00b920459",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3,
+        16,
+        32
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/src/cashassembly/apnt_pool_verdict_factory_v1.casm",
+      "originalSha256": "dcb126abfe57fc830757529a7e21779b19d98583d595a5ceb6d1f5f1e12f2ab5",
+      "publishedSha256": "b52a29b9cedea9e878a53f340190fe46d97c2868de1a6c1516979ba8fc916805",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3,
+        7
+      ]
+    },
+    {
+      "path": "tools/pool-onetx-verifier-prototype/factory/apnt_pool_onetx_verdict_factory_v0.casm",
+      "originalSha256": "6dbfafeacdfc40256100c713e91b93876174519be8871387dfc16a11bffd0265",
+      "publishedSha256": "b443f2c99a94b06a9b4ef29b6abef46869612a62653914b9b1c1cec9556d494c",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        3,
+        7
+      ]
+    },
+    {
+      "path": "packages/protocol-runtime/src/apnt_pool_contract_v1.ts",
+      "originalSha256": "2ffc8e3ec1a15de30dd6adbef0ea37576f8890f96b89a3442cc8ef8297dc1b44",
+      "publishedSha256": "a9c5420ca77087232ab945a429373fc6485cdb6ade7ef601ec7815f594e62a83",
+      "reason": "Publication labels only; cryptographic identities unchanged.",
+      "changedLines": [
+        8,
+        37,
+        38,
+        39,
+        63,
+        68,
+        211,
+        417
+      ]
+    }
+  ]
+}

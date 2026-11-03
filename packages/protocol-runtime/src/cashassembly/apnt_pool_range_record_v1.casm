@@ -1,0 +1,73 @@
+// APNT shielded pool v1: the nullifier range record's code (task 3.1).
+//
+// Target: protocol-design, "Nullifier
+// range records", "Settlement and the proof verdict" and "Canonical
+// encodings"; specs/apnt-pool-nullifier-range-records/spec.md. Layout historical-record
+// D2 with the insertion delegated to the settlement (historical-record, historical-record's
+// measured revision; historical-record).
+//
+// Maturity: new. Deterministic local-VM evidence only
+// (packages/reference-aggregator/test/apnt_pool_range_record_v1_local_vm.test.ts
+// and apnt_pool_settlement_covenant_v1_local_vm.test.ts). Not deployed, not
+// frozen, not a chain claim.
+//
+// A range record is a keyless UTXO holding a minting NFT of the pool's range
+// category R, fungible amount zero, an EMPTY commitment, under its own lock
+//
+//   P2SH32(redeem),  redeem = <lo‖hi> OP_DROP ‖ CODE
+//
+// where lo‖hi is the record's data, two 33-byte unsigned little-endian
+// endpoints in [0, 2^257], and CODE is this source compiled. The record
+// asserts that no inserted key k has lo < k < hi. A nullifier's key is
+// κ(nf) = 2·int_le(nf) + 1. Every record's lock is distinct, since its data
+// is part of its redeem.
+//
+// CODE checks only the settlement authority: input 0 carries a verdict-
+// category token with no capability (a 32-byte category, no capability byte)
+// and is under the pool settlement lock. Every insertion check (which record
+// inserts which statement nullifier, its data, lo < κ < hi, the two splits,
+// and that no other input or output carries the range category) is the
+// settlement covenant's (task 3.4, check 4), which runs once at input 0 and
+// reads each record's lo‖hi from the record input's unlocking bytecode. So a
+// record input costs its outpoint, sequence and 145-byte redeem push, and runs
+// no loop.
+//
+// The settlement covenant rebuilds CODE at run time from its own locking
+// bytecode and token category, as it derives the pool-coin lock:
+//
+//   CODE = PREFIX ‖ settlement lock ‖ MIDDLE ‖ verdict category ‖ TAIL
+//
+// so the lock comes first and the category second, each embedded once. The
+// builder (apnt_pool_range_record_covenant_v1.ts) reads that layout from this
+// source's compiled bytes, so the two cannot drift apart. The pool coin
+// embeds the same two constants in the other order (its constants first,
+// then its checks), so CODE and the pool-coin redeem differ.
+//
+// Unlocking data: the P2SH32 redeem push only, exactly
+// 0x4c 0x8f ‖ 0x42 ‖ lo‖hi ‖ 0x75 ‖ CODE (the settlement's RECORD_REDEEM).
+//
+// Relies on:
+//   - the ladder emitting a no-capability verdict-category token under the
+//     settlement lock only with commitment SHA-256(S) of a proved statement;
+//   - the audited genesis (task 3.2): exactly design.md's 2^g records, each
+//     under its own record lock with an empty commitment, and no other token
+//     of the range category;
+//   - the settlement covenant's check 4 for the one-to-one insertion.
+//
+// `//@check NAME` … `//@end` mark one covenant check. The markers are
+// comments, ignored by the compiler; the local-VM tests remove one marked
+// check at a time (replacing it with its `//@ablated` text, if any).
+//
+// Local VM acceptance is not chain validation, proof verification, wallet
+// acceptance or spendability.
+
+// Settlement authority: input 0 is under the pool settlement lock ...
+//@check AUTH_LOCK
+<0> OP_UTXOBYTECODE @SETTLEMENT_LOCK_PUSH@ OP_EQUALVERIFY
+//@ablated @SETTLEMENT_LOCK_PUSH@ OP_DROP
+//@end
+// ... and holds a verdict-category token with no capability.
+//@check AUTH_CATEGORY
+<0> OP_UTXOTOKENCATEGORY @VERDICT_CATEGORY_PUSH@ OP_EQUAL
+//@ablated @VERDICT_CATEGORY_PUSH@ OP_DROP <1>
+//@end

@@ -1,0 +1,16 @@
+[package]
+license = "MIT"
+name = "apnt-prover-backend-v0"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "apnt_prover_backend_v0"
+path = "src/lib.rs"
+
+[dependencies]
+anyhow = "=1.0.98"
+hex = "=0.4.3"
+sha2 = "=0.10.9"
+sp1-sdk = { version = "=6.3.1", default-features = false, features = ["blocking", "native-gnark"] }

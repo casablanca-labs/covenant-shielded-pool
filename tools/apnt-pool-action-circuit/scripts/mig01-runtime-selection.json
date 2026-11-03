@@ -1,0 +1,481 @@
+{
+  "schema": "mig01-runtime-selection-v1",
+  "rows": [
+    {
+      "title": "P13 fixed committed public selector writes its public result then fails closed before the summary",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-BRIDGE/COPY genuine stock runner ignores independent git redirection through P/A/W and its check-live result then fails closed before the summary",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-BRIDGE/COPY genuine stock runner ignores independent path redirection through P/A/W and its check-live result then fails closed before the summary",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-BRIDGE/COPY genuine stock runner ignores independent preload redirection through P/A/W and its check-live result then fails closed before the summary",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-BRIDGE/COPY genuine stock runner ignores independent script redirection through P/A/W and its check-live result then fails closed before the summary",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD authenticated construction basis changes at A before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD authenticated construction basis changes at P before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD authenticated construction basis changes at W before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD exact native anchor predicate fires independently at A before delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD exact native anchor predicate fires independently at P before delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD exact native anchor predicate fires independently at W before delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD fresh verified deadline equality at A refuses without releasing or rebuilding",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD fresh verified deadline equality at P refuses without releasing or rebuilding",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD fresh verified deadline equality at W refuses without releasing or rebuilding",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD original B then B+1 extension preserves unchanged anchor at A and W",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD real narrow reader fails independently at A with no snapshot or transition",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD real narrow reader fails independently at P with no snapshot or transition",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD real narrow reader fails independently at W with no snapshot or transition",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD same-height independently mined hash change invalidates A before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-HREAD without restore scan completion P preserves the exact pending refusal",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-LOCK bridge contention refuses before issuer contact and child-exit teardown removes its registration",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-LOCK force-killed disposable holder leaves an unchanged stale lock and no reclaim or issuer contact",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-LOCK issuer contention after the fresh asynchronous read invalidates before authenticated refusal delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE authenticated comments preserve one P/A/W case and a second A cannot acquire again",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE authenticated empty source refuses before P delivery and cannot reset the latch",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE authenticated mixed source refuses before P delivery and cannot reset the latch",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE authenticated repeat source refuses before P delivery and cannot reset the latch",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE authenticated two source refuses before P delivery and cannot reset the latch",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE just below the original TTL all three distinct latches deliver once",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE original TTL equality at A is not renewed by a previous phase",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE original TTL equality at P is not renewed by a previous phase",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-ONECASE original TTL equality at W is not renewed by a previous phase",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-OUTPUT missing result after A refuses even for EXPECT fail",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-OUTPUT missing result after A refuses even for EXPECT ok",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-OUTPUT missing result after A refuses even for EXPECT refuse-open",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-OUTPUT missing result after P refuses even for EXPECT fail",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-OUTPUT missing result after P refuses even for EXPECT ok",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-OUTPUT missing result after P refuses even for EXPECT refuse-open",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 0 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 1 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 10 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 11 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 2 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 3 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 4 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 5 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 6 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 7 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 8 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable A tuple position 9 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 0 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 1 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 10 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 11 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 2 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 3 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 4 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 5 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 6 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 7 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 8 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL immutable W tuple position 9 refuses before capture",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent bad-mac to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent binding-type to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent challenge-mismatch to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent duplicate to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent envelope-extra to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent envelope-missing-binding to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent envelope-missing-value to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent epoch-format to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-cause to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-code to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-extra to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-missing-cause to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-missing-code to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-missing-retry to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-retry to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-type-cause to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-type-code to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent error-type-retry to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent noncanonical to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent phase-mismatch to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent schema-pi02 to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent schema-route to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent schema-snapshot to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent source-mismatch to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent trailing-payload to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-extra to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-missing-challenge to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-missing-epoch to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-missing-error to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-missing-phase to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-missing-schema to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-missing-source to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-type-challenge to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-type-epoch to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-type-error to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-type-phase to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-type-schema to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-REFUSAL real bridge collapses independent value-type-source to ownership without snapshot delivery",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-RESOURCE missing prove result after A refuses even for EXPECT fail",
+      "selection": "resource"
+    },
+    {
+      "title": "PH11-RESOURCE missing prove result after A refuses even for EXPECT refuse-open",
+      "selection": "resource"
+    },
+    {
+      "title": "PH11-RESOURCE valid prove failure receipt preserves EXPECT fail",
+      "selection": "resource"
+    },
+    {
+      "title": "PH11-RESOURCE valid prove failure receipt preserves EXPECT refuse-open",
+      "selection": "resource"
+    },
+    {
+      "title": "PH11-ROUTE-WRITER genuine inbox source reaches the authenticated P/A/W issuer",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X direct tagged library with expiry after \"\"",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X direct tagged library with expiry after \"P\"",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X tagged binding refusal at A executes the observer without a writer",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X tagged binding refusal at W executes the observer without a writer",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X tagged genuine P/A/W observation with expiry after \"\"",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X tagged genuine P/A/W observation with expiry after \"A\"",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X tagged genuine P/A/W observation with expiry after \"P\"",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X-PROD direct ordinary library with a LIVE registry refuses before bridge contact",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X-PROD ordinary artifact excludes the tagged hook and an ordinary hook caller cannot compile",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X-PROD raw ordinary caller with a LIVE registry refuses before bridge contact",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X-PROD real issuer expiry after A refuses the next phase without a native result",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X-PROD real issuer expiry after P refuses the next phase without a native result",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X-PROD/P0 genuine kernel stock runner reaches P/A/W and writes its check-live result then fails closed before the summary",
+      "selection": "ordinary"
+    },
+    {
+      "title": "PH11-X-PROD/P0 genuine stock stock runner reaches P/A/W and writes its check-live result then fails closed before the summary",
+      "selection": "ordinary"
+    }
+  ]
+}

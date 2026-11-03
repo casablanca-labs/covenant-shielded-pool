@@ -1,0 +1,12 @@
+[workspace]
+members = ["core", "program", "program-chipnet-zero-value-rev3", "runner"]
+default-members = ["core"]
+resolver = "2"
+
+# SP1's patched crates route SHA-256, BN254 G1 add/double and the secp256k1
+# field through the zkVM's precompiles. They build natively as the upstream
+# crates, so the host tests run the same code paths' semantics.
+[patch.crates-io]
+sha2 = { git = "https://github.com/sp1-patches/RustCrypto-hashes", package = "sha2", tag = "patch-sha2-0.10.9-sp1-6.0.0" }
+substrate-bn = { git = "https://github.com/sp1-patches/bn", package = "substrate-bn-succinct-rs", tag = "patch-0.6.0-sp1-6.2.0" }
+k256 = { git = "https://github.com/sp1-patches/elliptic-curves", package = "k256", tag = "patch-k256-13.4-sp1-6.0.0" }

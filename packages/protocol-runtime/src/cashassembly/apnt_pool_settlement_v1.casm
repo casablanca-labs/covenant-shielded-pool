@@ -1,0 +1,470 @@
+// APNT shielded pool v1: the pool settlement covenant (task 3.4).
+//
+// Target: protocol-design, "Settlement
+// and the proof verdict", "Authorization", "Canonical encodings";
+// specs/apnt-pool-settlement-custody/spec.md, "The settlement covenant checks
+// an exact list".
+//
+// Maturity: new. Deterministic local-VM evidence only
+// (packages/reference-aggregator/test/apnt_pool_settlement_covenant_v1_local_vm.test.ts).
+// Not deployed, not frozen, not a chain claim.
+//
+// The verifier ladder emits its terminal verdict, an immutable NFT of the
+// verdict category V committing SHA-256(S), under this lock. Spending it
+// settles S. This script runs at input 0 only and checks, in one input, the
+// seven checks of apnt-pool-settlement-custody (the pool has no deposit cap and
+// no meter: historical-record, operator decision 2026-09-24):
+//
+//   position   this input is input 0 (a verdict spent anywhere else, for
+//              example at input 2 of a fold or of another settlement, would be
+//              burned), and its token is V with no capability;
+//   1 statement  SHA-256(S) is the token's commitment; S starts with the
+//              statement tag and this deployment's id; |S| = 88 + 314·B with
+//              B ≥ 1 its u16le field (a partial record fails the split, and
+//              the record count must equal B); records are in strictly
+//              ascending byte-lexicographic ad order;
+//   2 signatures  for every record A_k, ad_k = SHA-256("APNT-POOL-v1:action-auth"
+//              ‖ deployment_id ‖ A_k), the tag-authorization message
+//              m_k = SHA-256("APNT-POOL-v1:dt-auth" ‖ ad_k ‖ dt_{k,0} ‖ dt_{k,1})
+//              over the record's two discovery tags (historical-record), and
+//              OP_CHECKDATASIGVERIFY(sig_{k,s}, m_k, rk_{k,s}) for s = 1, 0;
+//              the signature push holds exactly 144·B bytes, so no tag can be
+//              stripped, truncated or appended. Order stays by ad_k; nothing
+//              checks what a tag contains (its fill rule is the wallet's);
+//   3 anchors  root copies are the inputs 1..C whose token is the root
+//              category T with no capability, and no later input carries one;
+//              each record's anchor is the commitment of one of them, the
+//              copies being taken in order of each anchor's first use, so the
+//              copies are exactly one per distinct anchor (no copy unused, no
+//              two of one root);
+//   4 nullifiers  (historical-record D2; historical-record, historical-record's measured revision; historical-record)
+//              inputs C + 1 .. C + 2B are the range records, and record input
+//              C + 1 + j inserts statement nullifier j (record ⌊j/2⌋, slot
+//              j mod 2), κ = 2·int_le(nf_j) + 1: its token is the range
+//              category with minting (RECORD_CATEGORY); its unlocking bytecode
+//              is exactly the push of the record redeem <lo‖hi> OP_DROP ‖ CODE
+//              (RECORD_REDEEM), CODE the range record's code rebuilt from this
+//              input's lock and category, so P2SH32 makes lo‖hi the data its
+//              lock commits; lo < κ < hi (KEY_ABOVE_LO, KEY_BELOW_HI); and
+//              outputs M + 1 + C + 2j and M + 1 + C + 2j + 1 are its splits,
+//              the data lo‖κ and κ‖hi: each the range category with minting
+//              (OUT_CATEGORY), an empty commitment (OUT_COMMITMENT_EMPTY),
+//              fungible amount zero (OUT_AMOUNT), the record value
+//              (OUT_VALUE), under P2SH32(<data> OP_DROP ‖ CODE) (OUT_LOCK).
+//              No other input (NO_STRAY_RECORD) and no other output
+//              (NO_STRAY_RECORD_OUT) carries the range category, of any
+//              capability;
+//   5 withdrawals  for the records with withdrawal > 0, in statement order,
+//              outputs 1..M: token-free, exactly the withdrawal, and
+//              SHA-256(locking bytecode) = wlock_hash;
+//   6 pending  (historical-record F1) output 0 is under the pending-batch lock of this
+//              batch, P2SH32(<H_cm> OP_DROP ‖ PCODE) with
+//              H_cm = SHA-256(cm_{1,0} ‖ cm_{1,1} ‖ … ‖ cm_{B,1}) computed here
+//              from S in statement order, carries this input's token unchanged
+//              (V, no capability, SHA-256(S)) and at least the fold bounty
+//              P_fold; no output after the withdrawals carries V;
+//   7 pool coins  Σ pool out = Σ pool in + Σ deposit − Σ withdrawal − Σ fee,
+//              Σ pool in over every input after the records under the
+//              pool-coin lock, Σ pool out over every output after the
+//              withdrawals, outside the splits, under it, each of those
+//              token-free. A withdrawal whose wlock_hash is the pool-coin
+//              lock's is paid like any other: it becomes an unowned pool coin
+//              (no note commits it), which only adds to the BCH the pool
+//              holds.
+//
+// Identification without circular embedding. The range-record, root-copy and
+// pool-coin locks each embed this lock, so this lock embeds none of them:
+//
+//   - root copies are identified by category: an input whose token is T with
+//     no capability. That is sound because immutable T tokens exist only
+//     under the root-copy lock: the audited genesis mints K there, the tree
+//     update mints K more per fold there (COPY_LOCK), the copy covenant
+//     recreates each only there (OUT_LOCK, RANK), and without a T minting
+//     token (only the tree update holds one, at input 0 of a fold) no other
+//     immutable T token can be created;
+//   - range records likewise by the range category with minting, which exists
+//     only under record locks (genesis confinement, then this covenant's own
+//     split outputs, check 4); a record's data is read from its redeem, and
+//     the record code CODE, like the pool-coin lock, is derived at run time
+//     from this input's locking bytecode and category (RECORD_SUFFIX);
+//   - the pool-coin lock is derived at run time from this input's locking
+//     bytecode and category: OP_HASH256 <HASH256(PREFIX ‖ lock₀ ‖ MIDDLE ‖ V
+//     ‖ TAIL)> OP_EQUAL, the pool-coin covenant's own compiled layout.
+//
+// This lock embeds the pending-batch redeem's code PCODE, which embeds only T.
+//
+// It binds statement values, never input outpoints: any copies, records and
+// pool coins that satisfy the checks will do, so a settlement is rebuilt around
+// concurrently spent ones with the same proof and signatures.
+//
+// Relies on:
+//   - the ladder emitting a no-capability V token under this lock only with
+//     the commitment SHA-256(S) of a proved statement (tasks 5.4, ladder);
+//   - the audited genesis (task 3.2) and the other pool covenants for the
+//     token confinement stated above;
+//   - the range record's code (task 3.1) for the settlement authority at
+//     every record input: a record is spent only beside this input at 0.
+//
+// Unlocking data (before the P2SH32 redeem push): <S> <sigs>, where sigs is,
+// for each record k = 1..B in statement order, sig_{k,0} ‖ sig_{k,1} ‖
+// dt_{k,0} ‖ dt_{k,1}: two 64-byte BCH Schnorr signatures over m_k, then the
+// 8-byte discovery tags of the record's outputs 0 and 1, 144 bytes per record.
+// The tags are in neither S, A nor the proof.
+//
+// Cost: check 4 loops over the 2B records and their 4B splits here, inside
+// the budget this input's statement and signature bytes already pay for; the
+// record inputs run no loop. With the moved code, this input's unlocking is
+// 9,795 bytes at B = 16, and B = 17 exceeds the 10,000-byte input limit.
+//
+// `//@check NAME` … `//@end` mark one covenant check; the local-VM tests remove
+// one at a time (replacing it with its `//@ablated` text, if any).
+//
+// Local VM acceptance is not chain validation, proof verification, wallet
+// acceptance or spendability.
+
+//@function 0 IS_COPY
+// (i) -> (bool): input i's token is the root category T with no capability.
+OP_UTXOTOKENCATEGORY
+//@check COPY_CATEGORY
+OP_DUP OP_SIZE <32> OP_MIN OP_SPLIT OP_DROP @ROOT_CATEGORY_PUSH@ OP_EQUAL
+//@ablated <1>
+//@end
+OP_SWAP
+//@check COPY_NO_CAPABILITY
+OP_SIZE <32> OP_NUMEQUAL OP_NIP
+//@ablated OP_DROP <1>
+//@end
+OP_BOOLAND
+
+//@function 1 INSERT
+// (nf i o) -> nothing: input i is the range record that inserts nf; outputs o
+// and o + 1 are its splits.
+OP_ROT 0x0100 OP_CAT OP_BIN2NUM OP_DUP OP_ADD OP_1ADD
+// Stack: i o κ.
+//@check RECORD_CATEGORY
+<2> OP_PICK OP_UTXOTOKENCATEGORY @RANGE_CATEGORY_MINTING_PUSH@ OP_EQUALVERIFY
+//@end
+// lo‖hi from the record's redeem: its unlocking is exactly HEAD ‖ lo‖hi ‖ OP_DROP ‖ CODE.
+<2> OP_PICK OP_INPUTBYTECODE @RECORD_UNLOCKING_HEAD_LENGTH@ OP_SPLIT <66> OP_SPLIT
+// Stack: i o κ head lo‖hi rest.
+//@check RECORD_REDEEM
+<3> OP_INVOKE OP_EQUALVERIFY
+OP_SWAP @RECORD_UNLOCKING_HEAD_PUSH@ OP_EQUALVERIFY
+//@ablated OP_DROP OP_NIP
+//@end
+<33> OP_SPLIT
+// Stack: i o κ lo hi.
+//@check KEY_ABOVE_LO
+OP_OVER 0x0100 OP_CAT OP_BIN2NUM <3> OP_PICK OP_LESSTHAN OP_VERIFY
+//@end
+//@check KEY_BELOW_HI
+<2> OP_PICK OP_OVER 0x0100 OP_CAT OP_BIN2NUM OP_LESSTHAN OP_VERIFY
+//@end
+// The split data lo‖κ and κ‖hi, κ as 33 bytes little-endian.
+<2> OP_ROLL <33> OP_NUM2BIN
+OP_SWAP OP_OVER OP_SWAP OP_CAT
+OP_ROT OP_ROT OP_CAT
+// Stack: i o (κ‖hi) (lo‖κ).
+<3> OP_PICK <3> OP_PICK <2> OP_INVOKE
+OP_ROT OP_ROT OP_1ADD <2> OP_INVOKE
+
+//@function 2 CHECK_OUT
+// (data i o) -> nothing: output o is a range record (range category, minting,
+// empty commitment, amount zero, the record value) under
+// P2SH32(<data> OP_DROP ‖ CODE).
+//@check OUT_CATEGORY
+OP_DUP OP_OUTPUTTOKENCATEGORY @RANGE_CATEGORY_MINTING_PUSH@ OP_EQUALVERIFY
+//@end
+//@check OUT_COMMITMENT_EMPTY
+OP_DUP OP_OUTPUTTOKENCOMMITMENT OP_SIZE OP_NIP OP_NOT OP_VERIFY
+//@end
+//@check OUT_AMOUNT
+OP_DUP OP_OUTPUTTOKENAMOUNT <0> OP_NUMEQUALVERIFY
+//@end
+//@check OUT_VALUE
+OP_DUP OP_OUTPUTVALUE @RECORD_VALUE_PUSH@ OP_NUMEQUALVERIFY
+//@end
+OP_NIP
+// Stack: data o. The expected lock: 0xaa 0x20 ‖ HASH256(push(data) ‖ OP_DROP ‖ CODE) ‖ 0x87.
+OP_OUTPUTBYTECODE OP_SWAP @RECORD_DATA_HEAD_PUSH@ OP_SWAP OP_CAT <3> OP_INVOKE OP_CAT OP_HASH256 0x02aa20 OP_SWAP OP_CAT 0x0187 OP_CAT
+//@check OUT_LOCK
+OP_EQUALVERIFY
+//@ablated OP_2DROP
+//@end
+
+//@function 3 RECORD_SUFFIX
+// () -> OP_DROP ‖ CODE, CODE the range record's code rebuilt from this input's
+// own lock and category: PREFIX ‖ lock₀ ‖ MIDDLE ‖ V ‖ TAIL.
+@RECORD_SUFFIX_PREFIX_PUSH@ <0> OP_UTXOBYTECODE OP_CAT @RECORD_SUFFIX_MIDDLE_PUSH@ OP_CAT <0> OP_UTXOTOKENCATEGORY OP_CAT @RECORD_SUFFIX_TAIL_PUSH@ OP_CAT
+
+//@main
+@FUNCTION_0_PUSH@ <0> OP_DEFINE
+@FUNCTION_1_PUSH@ <1> OP_DEFINE
+@FUNCTION_2_PUSH@ <2> OP_DEFINE
+@FUNCTION_3_PUSH@ <3> OP_DEFINE
+
+// Stack on entry: S sigs.
+
+// Position: the verdict is spent at input 0, and holds V with no capability.
+//@check OWN_INDEX
+OP_INPUTINDEX <0> OP_NUMEQUALVERIFY
+//@end
+//@check OWN_CATEGORY
+<0> OP_UTXOTOKENCATEGORY @VERDICT_CATEGORY_PUSH@ OP_EQUALVERIFY
+//@end
+
+// ---- 1. Statement.
+OP_SWAP
+// Stack: sigs S.
+//@check STATEMENT_HASH
+OP_DUP OP_SHA256 <0> OP_UTXOTOKENCOMMITMENT OP_EQUALVERIFY
+//@end
+<88> OP_SPLIT OP_SWAP <86> OP_SPLIT OP_BIN2NUM OP_TOALTSTACK
+<54> OP_SPLIT OP_DROP
+// Stack: sigs records tag‖deployment_id. Alt: B.
+//@check STATEMENT_DEPLOYMENT
+OP_DUP @STATEMENT_HEADER_PUSH@ OP_EQUALVERIFY
+//@end
+<22> OP_SPLIT OP_NIP @AUTH_TAG_PUSH@ OP_SWAP OP_CAT
+// Stack: sigs records authPrefix, authPrefix = "APNT-POOL-v1:action-auth" ‖ deployment_id.
+
+// ---- 2. Signatures, record order and record count.
+OP_ROT <0> OP_1SUB <0> <4> OP_PICK
+// Stack: records authPrefix sigs prev k recs, prev = −1 (below every ad), k = 0.
+OP_BEGIN
+  <314> OP_SPLIT OP_TOALTSTACK
+  OP_SWAP OP_1ADD OP_SWAP
+  // Stack: records authPrefix sigs prev k A. Alt: B recs'.
+  <4> OP_PICK OP_OVER OP_CAT OP_SHA256
+  <4> OP_ROLL <64> OP_SPLIT <64> OP_SPLIT <16> OP_SPLIT OP_TOALTSTACK
+  // Stack: records authPrefix prev k A ad sig0 sig1 dts, dts = dt0 ‖ dt1. Alt: B recs' sigs'.
+  // m = SHA-256("APNT-POOL-v1:dt-auth" ‖ ad ‖ dt0 ‖ dt1), the message both owners signed.
+  //@check TAG_BINDING
+  @DT_AUTH_TAG_PUSH@ <4> OP_PICK OP_CAT OP_SWAP OP_CAT OP_SHA256
+  //@ablated OP_DROP <2> OP_PICK
+  //@end
+  // Stack: records authPrefix prev k A ad sig0 sig1 m.
+  OP_SWAP OP_OVER <5> OP_PICK <129> OP_SPLIT OP_NIP <33> OP_SPLIT OP_DROP
+  //@check SIGNATURE_SLOT_1
+  OP_CHECKDATASIGVERIFY
+  //@ablated OP_2DROP OP_DROP
+  //@end
+  // Stack: records authPrefix prev k A ad sig0 m.
+  <3> OP_PICK <96> OP_SPLIT OP_NIP <33> OP_SPLIT OP_DROP
+  //@check SIGNATURE_SLOT_0
+  OP_CHECKDATASIGVERIFY
+  //@ablated OP_2DROP OP_DROP
+  //@end
+  // Stack: records authPrefix prev k A ad. ad as an unsigned big-endian integer:
+  OP_NIP OP_REVERSEBYTES 0x0100 OP_CAT OP_BIN2NUM
+  OP_ROT OP_OVER
+  // Stack: records authPrefix k cur prev cur.
+  //@check STATEMENT_ORDER
+  OP_LESSTHAN OP_VERIFY
+  //@ablated OP_2DROP
+  //@end
+  OP_SWAP OP_FROMALTSTACK OP_ROT OP_ROT OP_FROMALTSTACK
+  // Stack: records authPrefix sigs' cur k recs'. Alt: B.
+  OP_SIZE OP_NOT
+OP_UNTIL
+OP_DROP
+// Stack: records authPrefix sigs prev k. Alt: B.
+//@check STATEMENT_COUNT
+OP_FROMALTSTACK OP_NUMEQUALVERIFY
+//@ablated OP_FROMALTSTACK OP_2DROP
+//@end
+OP_DROP
+// Nothing is left of the signature push: it held exactly 144·B bytes (a short one failed a split).
+//@check SIGNATURES_EXACT
+OP_SIZE OP_NIP OP_NOT OP_VERIFY
+//@ablated OP_DROP
+//@end
+OP_DROP
+// Stack: records.
+
+// ---- 3. Anchors. C = the number of leading copy inputs 1..C.
+<0>
+OP_BEGIN OP_1ADD OP_DUP <0> OP_INVOKE OP_NOT OP_UNTIL
+OP_1SUB
+<0> <2> OP_PICK
+// Stack: records C p recs, p = copies used so far.
+OP_BEGIN
+  <314> OP_SPLIT OP_SWAP <32> OP_SPLIT OP_DROP
+  // Stack: records C p recs' a. found = copies among inputs 1..p carrying a.
+  <0> <0>
+  <4> OP_PICK OP_OVER OP_GREATERTHAN
+  OP_IF
+    OP_BEGIN
+      OP_DUP OP_1ADD OP_UTXOTOKENCOMMITMENT <3> OP_PICK OP_EQUAL
+      OP_ROT OP_ADD OP_SWAP OP_1ADD
+      OP_DUP <5> OP_PICK OP_NUMEQUAL
+    OP_UNTIL
+  OP_ENDIF
+  OP_DROP
+  OP_NOTIF
+    // A new anchor: the next copy, input 1 + p, carries it.
+    //@check ANCHOR_COPY
+    <2> OP_PICK OP_1ADD OP_UTXOTOKENCOMMITMENT OP_OVER OP_EQUALVERIFY
+    //@end
+    OP_ROT OP_1ADD OP_ROT OP_ROT
+  OP_ENDIF
+  OP_DROP
+  OP_SIZE OP_NOT
+OP_UNTIL
+OP_DROP
+// Stack: records C p. Every copy carries some anchor, and none is left over.
+//@check COPIES_EXACT
+OP_OVER OP_NUMEQUALVERIFY
+//@ablated OP_DROP
+//@end
+
+// ---- 4 runs after 5 (the splits follow the withdrawals and the copies): keep the records.
+OP_OVER OP_TOALTSTACK
+
+// ---- 5. Withdrawals, and the sums of deposits, withdrawals and fees.
+OP_SWAP <1> <0> <0> <0> <4> OP_ROLL
+// Stack: C j Σwd Σdep Σfee recs, j = the next withdrawal output.
+OP_BEGIN
+  <314> OP_SPLIT OP_TOALTSTACK
+  <258> OP_SPLIT OP_NIP <8> OP_SPLIT <8> OP_SPLIT <8> OP_SPLIT
+  // Stack: C j Σwd Σdep Σfee dep8 wd8 fee8 wlock. Alt: recs'. u64le as unsigned: ‖ 0x00, then BIN2NUM.
+  OP_SWAP 0x0100 OP_CAT OP_BIN2NUM <4> OP_ROLL OP_ADD OP_TOALTSTACK
+  OP_ROT 0x0100 OP_CAT OP_BIN2NUM <3> OP_ROLL OP_ADD OP_TOALTSTACK
+  OP_SWAP 0x0100 OP_CAT OP_BIN2NUM OP_ROT OP_OVER OP_ADD OP_TOALTSTACK
+  // Stack: C j wlock wd. Alt: recs' Σfee' Σdep' Σwd'.
+  OP_DUP OP_0NOTEQUAL
+  OP_IF
+    //@check WITHDRAWAL_VALUE
+    <2> OP_PICK OP_OUTPUTVALUE OP_OVER OP_NUMEQUALVERIFY
+    //@end
+    //@check WITHDRAWAL_LOCK
+    <2> OP_PICK OP_OUTPUTBYTECODE OP_SHA256 <2> OP_PICK OP_EQUALVERIFY
+    //@end
+    //@check WITHDRAWAL_TOKEN_FREE
+    <2> OP_PICK OP_OUTPUTTOKENCATEGORY <0> OP_EQUALVERIFY
+    //@end
+    OP_ROT OP_1ADD OP_ROT OP_ROT
+  OP_ENDIF
+  OP_2DROP
+  OP_FROMALTSTACK OP_FROMALTSTACK OP_FROMALTSTACK OP_FROMALTSTACK
+  OP_SIZE OP_NOT
+OP_UNTIL
+OP_DROP
+// Stack: C j Σwd Σdep Σfee, M = j − 1.
+
+// ---- 4. Nullifiers. Record input C + 1 + t inserts statement nullifier t; its
+// splits are outputs M + 1 + C + 2t and M + 1 + C + 2t + 1, after the pending
+// output, the M withdrawals and the C recreated copies (on the stack, j = M + 1).
+OP_FROMALTSTACK
+// Check 6's H_cm, from a copy of the records, to the alt stack.
+OP_DUP <0> OP_SWAP
+OP_BEGIN
+  <314> OP_SPLIT OP_SWAP <162> OP_SPLIT OP_NIP <64> OP_SPLIT OP_DROP
+  OP_ROT OP_SWAP OP_CAT OP_SWAP
+  OP_SIZE OP_NOT
+OP_UNTIL
+OP_DROP OP_SHA256 OP_TOALTSTACK
+<5> OP_PICK OP_1ADD
+<5> OP_PICK <7> OP_PICK OP_ADD
+<2> OP_ROLL
+// Stack: C j Σwd Σdep Σfee i o recs, i = C + 1 and o = j + C.
+OP_BEGIN
+  <314> OP_SPLIT OP_SWAP
+  <32> OP_SPLIT OP_NIP <32> OP_SPLIT <32> OP_SPLIT OP_DROP
+  // Stack: … i o recs' nf0 nf1.
+  OP_SWAP <4> OP_PICK <4> OP_PICK <1> OP_INVOKE
+  <3> OP_PICK OP_1ADD <3> OP_PICK <2> OP_ADD <1> OP_INVOKE
+  OP_ROT <2> OP_ADD OP_ROT <4> OP_ADD OP_ROT
+  OP_SIZE OP_NOT
+OP_UNTIL
+OP_DROP
+// Stack: C j Σwd Σdep Σfee iEnd oEnd, iEnd = C + 1 + 2B and oEnd = j + C + 4B. To the alt stack.
+OP_TOALTSTACK OP_TOALTSTACK
+
+// ---- 7. Pool coins. The pool-coin lock, derived from this input's lock and category.
+@POOL_COIN_PREFIX_PUSH@ <0> OP_UTXOBYTECODE OP_CAT @POOL_COIN_MIDDLE_PUSH@ OP_CAT
+<0> OP_UTXOTOKENCATEGORY OP_CAT @POOL_COIN_TAIL_PUSH@ OP_CAT
+OP_HASH256 0x02aa20 OP_SWAP OP_CAT 0x0187 OP_CAT
+// Stack: C j Σwd Σdep Σfee poolLock. Σ pool in over inputs iEnd .. n − 1 (after the records).
+<0> OP_FROMALTSTACK
+OP_DUP OP_TXINPUTCOUNT OP_LESSTHAN
+OP_IF
+  OP_BEGIN
+    // No copy after the leading block.
+    //@check NO_STRAY_COPY
+    OP_DUP <0> OP_INVOKE OP_NOT OP_VERIFY
+    //@end
+    // No range-category input after the records.
+    //@check NO_STRAY_RECORD
+    OP_DUP OP_UTXOTOKENCATEGORY OP_SIZE <32> OP_MIN OP_SPLIT OP_DROP @RANGE_CATEGORY_PUSH@ OP_EQUAL OP_NOT OP_VERIFY
+    //@end
+    OP_DUP OP_UTXOBYTECODE <3> OP_PICK OP_EQUAL
+    OP_IF
+      //@check POOL_IN_EVERY
+      OP_DUP OP_UTXOVALUE OP_ROT OP_ADD OP_SWAP
+      //@ablated OP_OVER OP_NOT OP_IF OP_DUP OP_UTXOVALUE OP_ROT OP_ADD OP_SWAP OP_ENDIF
+      //@end
+    OP_ENDIF
+    OP_1ADD OP_DUP OP_TXINPUTCOUNT OP_NUMEQUAL
+  OP_UNTIL
+OP_ENDIF
+OP_DROP
+// Stack: C j Σwd Σdep Σfee poolLock poolIn. expected = poolIn − Σfee + Σdep − Σwd.
+<2> OP_ROLL OP_SUB <2> OP_PICK OP_ADD <3> OP_PICK OP_SUB
+OP_FROMALTSTACK
+<5> OP_PICK <7> OP_PICK OP_ADD
+<0> <7> OP_PICK
+// Stack: C j Σwd Σdep poolLock expected oEnd recStart poolOut o, o from j = M + 1; the splits are
+// outputs recStart .. oEnd − 1, recStart = j + C, which check 4 has read.
+OP_TXOUTPUTCOUNT OP_OVER OP_GREATERTHAN
+OP_IF
+  OP_BEGIN
+    OP_DUP <3> OP_PICK <5> OP_PICK OP_WITHIN OP_NOT
+    OP_IF
+      OP_DUP OP_OUTPUTTOKENCATEGORY
+      // 6. No output after the withdrawals carries the verdict category.
+      //@check NO_OTHER_VERDICT
+      OP_DUP OP_SIZE <32> OP_MIN OP_SPLIT OP_DROP <0> OP_UTXOTOKENCATEGORY OP_EQUAL OP_NOT OP_VERIFY
+      //@end
+      // No range-category output outside the splits.
+      //@check NO_STRAY_RECORD_OUT
+      OP_DUP OP_SIZE <32> OP_MIN OP_SPLIT OP_DROP @RANGE_CATEGORY_PUSH@ OP_EQUAL OP_NOT OP_VERIFY
+      //@end
+      OP_OVER OP_OUTPUTBYTECODE <7> OP_PICK OP_EQUAL
+      OP_IF
+        //@check POOL_OUT_TOKEN_FREE
+        OP_DUP <0> OP_EQUALVERIFY
+        //@end
+        OP_OVER OP_OUTPUTVALUE <3> OP_ROLL OP_ADD OP_ROT OP_ROT
+      OP_ENDIF
+      OP_DROP
+    OP_ENDIF
+    OP_1ADD OP_DUP OP_TXOUTPUTCOUNT OP_NUMEQUAL
+  OP_UNTIL
+OP_ENDIF
+OP_DROP
+OP_ROT OP_ROT OP_2DROP
+// Stack: C j Σwd Σdep poolLock expected poolOut.
+//@check POOL_SUM
+OP_NUMEQUALVERIFY
+//@ablated OP_2DROP
+//@end
+OP_DROP
+
+// ---- 6. The pending output, under P2SH32(<H_cm> OP_DROP ‖ PCODE).
+<0> OP_OUTPUTBYTECODE @PENDING_HEAD_PUSH@ OP_FROMALTSTACK OP_CAT @PENDING_TAIL_PUSH@ OP_CAT OP_HASH256 0x02aa20 OP_SWAP OP_CAT 0x0187 OP_CAT
+//@check PENDING_LOCK
+OP_EQUALVERIFY
+//@ablated OP_2DROP
+//@end
+//@check PENDING_CATEGORY
+<0> OP_OUTPUTTOKENCATEGORY <0> OP_UTXOTOKENCATEGORY OP_EQUALVERIFY
+//@end
+//@check PENDING_COMMITMENT
+<0> OP_OUTPUTTOKENCOMMITMENT <0> OP_UTXOTOKENCOMMITMENT OP_EQUALVERIFY
+//@end
+//@check PENDING_VALUE
+<0> OP_OUTPUTVALUE @FOLD_BOUNTY_PUSH@ OP_GREATERTHANOREQUAL OP_VERIFY
+//@end
+
+OP_2DROP OP_2DROP <1>

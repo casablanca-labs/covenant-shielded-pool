@@ -1,0 +1,14 @@
+{
+  "schema": "apnt-pool-aggregate-local-guest-input-manifest-v1",
+  "label": "LOCAL 0x99 - SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY",
+  "sourceCommit": "ba97d89839c60c49b12c7efc5c0f5bc43b8846e2",
+  "domain": "BCH Cloak APNT pool aggregate guest inputs v1\\0",
+  "paths": [
+    "tools/apnt-pool-aggregate-local-sp1/Cargo.toml",
+    "tools/apnt-pool-aggregate-local-sp1/Cargo.lock",
+    "tools/apnt-pool-aggregate-local-sp1/program",
+    "tools/apnt-pool-aggregate-sp1/core"
+  ],
+  "files": 14,
+  "sha256": "35adcf6b3992c538b253d611cb26351315853d83bb1bfa0bceedcea29095b6f1"
+}

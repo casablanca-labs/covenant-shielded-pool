@@ -1,0 +1,208 @@
+// APNT shielded pool v1: the tree-update covenant (task 3.3).
+//
+// Target: protocol-design, "Note tree,
+// root copies and the tree update"; specs/apnt-pool-note-tree/spec.md, "The
+// tree update recomputes the frontier in script".
+//
+// Maturity: new. Deterministic local-VM evidence only
+// (packages/reference-aggregator/test/apnt_pool_tree_covenants_v1_local_vm.test.ts).
+// Not deployed, not frozen, not a chain claim.
+//
+// The tree update is the one keyless UTXO under this lock that holds the
+// root category T's minting NFT, commitment u64le(n) ‖ H_F ‖ root (72 bytes),
+// with H_F = SHA-256("APNT-POOL-v1:frontier" ‖ u64le(n) ‖ F) and
+// F = F_0 ‖ … ‖ F_31. One spend folds one settled batch, whose pending verdict
+// it burns. The fold pushes the batch's 64·B bytes of leaves, not its
+// statement S (historical-record F1; historical-record, historical-record's measured revision; historical-record):
+//
+//   position   this input is input 0 and carries T's minting NFT;
+//   pending    input 1 carries a verdict-category token with no capability
+//              (32 bytes, no capability byte), and its unlocking bytecode is
+//              exactly the push of a pending-batch redeem <H_cm> OP_DROP ‖
+//              PCODE (PENDING_REDEEM), so, P2SH32 binding the redeem to input
+//              1's lock, H_cm is the digest that lock commits;
+//   leaves     the pushed leaves hash to H_cm (LEAVES_HASH): they are
+//              cm_{1,0} ‖ cm_{1,1} ‖ … ‖ cm_{B,1} of the settled S, in
+//              statement order, since only the settlement covenant moves a
+//              no-capability verdict under a pending lock, and it computes
+//              H_cm from its own S (task 3.4, check 6);
+//   frontier   the pushed F hashes, with the committed u64le(n), to the
+//              committed H_F. n is read from the commitment, never pushed;
+//   append     each 32-byte leaf in order, each only while 0 ≤ n < 2^32 − 1
+//              (an explicit capacity check, historical-record), with
+//              node(l, r) = SHA-256("APNT-POOL-v1:node" ‖ l ‖ r);
+//   root       root(F', n') over 32 levels, Z_0 = 0^32, Z_{h+1} = node(Z_h, Z_h);
+//   outputs    output 0 is this lock, T's minting NFT, commitment
+//              u64le(n') ‖ H_F(F', n') ‖ root', value not reduced; outputs
+//              1..K are immutable T NFTs of root' under the root-copy lock, at
+//              the pinned copy value; every later output is token-free.
+//
+// So the pending verdict is burned (no output carries V), no other output
+// carries T, and each batch folds once.
+//
+// The leaves are split 32 bytes at a time; an empty or partial list fails a
+// split, and any list but the settled one fails LEAVES_HASH. The covenant
+// neither reads S nor checks the pending token's commitment SHA-256(S): the
+// pending lock's H_cm is what binds the fold to the settled batch. H_cm is
+// a plain SHA-256, compared only with the pushed leaves at this one site.
+//
+// Relies on:
+//   - the audited genesis (task 3.2): exactly one T minting NFT, under this
+//     lock, with the empty-frontier commitment, and K copies of Z_32;
+//   - the pending-batch lock admitting a spend only as input 1 beside T's
+//     minting NFT at input 0 (apnt_pool_pending_batch_v1.casm);
+//   - the ladder emitting a no-capability verdict token only under the
+//     settlement lock, and the settlement covenant moving it unchanged to
+//     output 0 under the pending-batch lock of its own H_cm (task 3.4,
+//     check 6), so no other no-capability verdict sits under a pending lock.
+//
+// Unlocking data (before the P2SH32 redeem push): <F> <leaves>, the leaves
+// 64·B bytes.
+//
+// `//@check NAME` … `//@end` mark one covenant check, as in the range-record
+// covenant; the local-VM tests remove one at a time.
+//
+// Local VM acceptance is not chain validation, proof verification, wallet
+// acceptance or spendability.
+
+// Stack on entry: F leaves.
+
+//@check OWN_INDEX
+OP_INPUTINDEX <0> OP_NUMEQUALVERIFY
+//@end
+//@check OWN_CATEGORY
+<0> OP_UTXOTOKENCATEGORY @ROOT_CATEGORY_MINTING_PUSH@ OP_EQUALVERIFY
+//@end
+
+// The pending verdict at input 1: its unlocking is exactly the push of
+// <H_cm> OP_DROP ‖ PCODE, whose head (the push opcode and the digest's push
+// opcode) and tail (OP_DROP ‖ PCODE) are pinned.
+<1> OP_INPUTBYTECODE @PENDING_UNLOCKING_HEAD_LENGTH@ OP_SPLIT <32> OP_SPLIT
+// Stack: F leaves head H_cm tail.
+//@check PENDING_REDEEM
+@PENDING_TAIL_PUSH@ OP_EQUALVERIFY OP_SWAP @PENDING_UNLOCKING_HEAD_PUSH@ OP_EQUALVERIFY
+//@ablated OP_DROP OP_NIP
+//@end
+//@check PENDING_CATEGORY
+<1> OP_UTXOTOKENCATEGORY @VERDICT_CATEGORY_PUSH@ OP_EQUALVERIFY
+//@end
+// Stack: F leaves H_cm.
+//@check LEAVES_HASH
+OP_OVER OP_SHA256 OP_EQUALVERIFY
+//@ablated OP_DROP
+//@end
+
+// The committed state u64le(n) ‖ H_F ‖ root.
+<0> OP_UTXOTOKENCOMMITMENT <8> OP_SPLIT <32> OP_SPLIT OP_DROP
+// Stack: F leaves u64le(n) H_F.
+//@check FRONTIER_HASH
+<3> OP_PICK <2> OP_PICK OP_SWAP OP_CAT @FRONTIER_TAG_PUSH@ OP_SWAP OP_CAT OP_SHA256 OP_EQUALVERIFY
+//@ablated OP_DROP
+//@end
+OP_BIN2NUM
+// Stack: F leaves n. The leaves, cm_{k,0} ‖ cm_{k,1} in statement order, to
+// the alt stack as one blob.
+OP_SWAP OP_TOALTSTACK
+// Stack: F n. Alt: leaves.
+
+// append(F, n, x) for each leaf x.
+OP_BEGIN
+  //@check CAPACITY
+  OP_DUP <0> <4294967295> OP_WITHIN OP_VERIFY
+  //@end
+  OP_FROMALTSTACK <32> OP_SPLIT OP_TOALTSTACK
+  // Stack: F n x; then F n x k o, with k = n and o = 32·h.
+  OP_OVER <0>
+  OP_BEGIN
+    OP_OVER <2> OP_MOD
+    OP_IF
+      // k odd: x = node(F_h, x); k = k / 2; h = h + 1.
+      <4> OP_PICK OP_OVER OP_SPLIT OP_NIP <32> OP_SPLIT OP_DROP
+      <3> OP_ROLL OP_CAT @NODE_TAG_PUSH@ OP_SWAP OP_CAT OP_SHA256
+      OP_ROT OP_ROT
+      OP_SWAP <2> OP_DIV OP_SWAP <32> OP_ADD
+      <0>
+    OP_ELSE
+      // k even: F_h = x; n = n + 1.
+      <4> OP_ROLL OP_SWAP OP_SPLIT <32> OP_SPLIT OP_NIP
+      <3> OP_ROLL OP_SWAP OP_CAT OP_CAT
+      OP_NIP OP_SWAP OP_1ADD
+      <1>
+    OP_ENDIF
+  OP_UNTIL
+  OP_FROMALTSTACK OP_SIZE OP_SWAP OP_TOALTSTACK OP_NOT
+OP_UNTIL
+OP_FROMALTSTACK OP_DROP
+// Stack: F' n'.
+
+// u64le(n') ‖ H_F(F', n') to the alt stack.
+OP_2DUP <8> OP_NUM2BIN OP_SWAP OP_CAT @FRONTIER_TAG_PUSH@ OP_SWAP OP_CAT OP_SHA256
+OP_OVER <8> OP_NUM2BIN OP_SWAP OP_CAT OP_TOALTSTACK
+
+// root(F', n'): Stack F' s x z o, with s = n', x = z = Z_0 and o = 32·h.
+<0> <32> OP_NUM2BIN OP_DUP <0>
+OP_BEGIN
+  <3> OP_PICK <2> OP_MOD
+  OP_IF
+    // bit h of n' set: x = node(F_h, x).
+    <4> OP_PICK OP_OVER OP_SPLIT OP_NIP <32> OP_SPLIT OP_DROP
+    <3> OP_ROLL OP_CAT @NODE_TAG_PUSH@ OP_SWAP OP_CAT OP_SHA256
+  OP_ELSE
+    // clear: x = node(x, Z_h).
+    <2> OP_ROLL <2> OP_PICK OP_CAT @NODE_TAG_PUSH@ OP_SWAP OP_CAT OP_SHA256
+  OP_ENDIF
+  OP_ROT OP_ROT
+  // z = Z_{h+1}; s = s / 2; o = o + 32.
+  OP_SWAP OP_DUP OP_CAT @NODE_TAG_PUSH@ OP_SWAP OP_CAT OP_SHA256 OP_SWAP
+  <3> OP_ROLL <2> OP_DIV <3> OP_ROLL <3> OP_ROLL <3> OP_ROLL
+  <32> OP_ADD OP_DUP <1024> OP_NUMEQUAL
+OP_UNTIL
+OP_2DROP OP_NIP OP_NIP
+// Stack: root'.
+
+// Output 0 is the next tree update.
+OP_FROMALTSTACK OP_OVER OP_CAT
+//@check OUT_TREE_COMMITMENT
+<0> OP_OUTPUTTOKENCOMMITMENT OP_EQUALVERIFY
+//@ablated OP_DROP
+//@end
+//@check OUT_TREE_CATEGORY
+<0> OP_OUTPUTTOKENCATEGORY @ROOT_CATEGORY_MINTING_PUSH@ OP_EQUALVERIFY
+//@end
+//@check OUT_TREE_LOCK
+<0> OP_OUTPUTBYTECODE <0> OP_UTXOBYTECODE OP_EQUALVERIFY
+//@end
+//@check OUT_TREE_VALUE
+<0> OP_OUTPUTVALUE <0> OP_UTXOVALUE OP_GREATERTHANOREQUAL OP_VERIFY
+//@end
+
+// Outputs 1..K are the root copies of root'.
+<1>
+OP_BEGIN
+  //@check COPY_COMMITMENT
+  OP_DUP OP_OUTPUTTOKENCOMMITMENT <2> OP_PICK OP_EQUALVERIFY
+  //@end
+  //@check COPY_CATEGORY
+  OP_DUP OP_OUTPUTTOKENCATEGORY @ROOT_CATEGORY_PUSH@ OP_EQUALVERIFY
+  //@end
+  //@check COPY_LOCK
+  OP_DUP OP_OUTPUTBYTECODE @ROOT_COPY_LOCK_PUSH@ OP_EQUALVERIFY
+  //@end
+  //@check COPY_VALUE
+  OP_DUP OP_OUTPUTVALUE @ROOT_COPY_VALUE_PUSH@ OP_NUMEQUALVERIFY
+  //@end
+  OP_1ADD OP_DUP @ROOT_COPY_END_PUSH@ OP_NUMEQUAL
+OP_UNTIL
+OP_NIP
+
+// Every later output is token-free: no other output carries T or V.
+OP_TXOUTPUTCOUNT OP_OVER OP_GREATERTHAN
+OP_IF
+  OP_BEGIN
+    //@check LATER_OUTPUTS_TOKEN_FREE
+    OP_DUP OP_OUTPUTTOKENCATEGORY <0> OP_EQUALVERIFY
+    //@end
+    OP_1ADD OP_DUP OP_TXOUTPUTCOUNT OP_NUMEQUAL
+  OP_UNTIL
+OP_ENDIF
+OP_DROP <1>

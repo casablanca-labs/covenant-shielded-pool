@@ -1,0 +1,17 @@
+[package]
+license = "MIT"
+name = "apnt-pool-aggregate-program"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+apnt-pool-aggregate-core = { path = "../core" }
+sp1-zkvm = "=6.3.1"
+
+[features]
+default = []
+# Test ELF: allowlists the forgeable revision-2 development keys and
+# revision 3's Chipnet zero-value vp (core/Cargo.toml) so execute-only
+# positives can run. Never a canonical build.
+development-zero-value-test-profile = ["apnt-pool-aggregate-core/development-zero-value-test-profile"]

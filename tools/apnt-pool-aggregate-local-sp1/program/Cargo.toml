@@ -1,0 +1,22 @@
+[package]
+license = "MIT"
+name = "apnt-pool-aggregate-program-local-zero-value"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Separate local-network pool aggregate guest; zero-value simulation only"
+
+[[bin]]
+name = "apnt-pool-aggregate-program-local-zero-value"
+path = "src/main.rs"
+
+[dependencies]
+apnt-pool-aggregate-core = { path = "../../apnt-pool-aggregate-sp1/core" }
+sp1-zkvm = "=6.3.1"
+
+[package.metadata.apnt]
+label = "LOCAL 0x99 - SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY"
+network = "local"
+registry-entry = 1
+registry-revision = 3
+allowlist = ["ea3d52d762f394b2959740126c3fb441165236696a02314a19498b48e2f1c1f2"]

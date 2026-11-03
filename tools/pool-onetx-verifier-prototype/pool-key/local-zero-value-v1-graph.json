@@ -1,0 +1,184 @@
+{
+  "schema": "apnt-pool-onetx-verifier-graph-record-v1",
+  "label": "LOCAL 0x99 RESEARCH PROTOTYPE GRAPH - SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY; never for value",
+  "program": {
+    "record": "tools/apnt-pool-aggregate-local-sp1/canonical-build/local-zero-value-canonical-build-v1.json",
+    "package": "apnt-pool-aggregate-program-local-zero-value",
+    "programVkeyHash": "008b67415acd3c7ae6e9c2ad0887a6ae6a322c4b1da8b97670b217255f0067ca",
+    "guestElfSha256": "9dc4dc3d9fe043d4acb8b6f1a0eb8dbb2705f19330e924a824de4f7efbf0ccc2",
+    "guestElfBytes": 443696
+  },
+  "wrapper": {
+    "sp1Version": "6.3.1",
+    "wrapperVkSha256": "4388a21c687fdd5f218d7e3d13190cac4c5355818d3605fd5fb811df468ee696",
+    "recursionVkeyRootHex": "002f850ee998974d6cc00e50cd0814b098c05bfade466d28573240d057f25352",
+    "s3Le32": "5253f257d0403257286d46defa5bc098b01408cd500ec06c4d9798e90e852f00",
+    "s0": "246304383836983761157670048483838443651312288549282269543081405510930425802"
+  },
+  "generation": {
+    "sources": {
+      "tag": "historical-provenance-generation-sources-tag",
+      "tagCommit": "091d709ede9f64962bb0bdf4dd6046131aee10ac",
+      "worktreeHead": "ba97d89839c60c49b12c7efc5c0f5bc43b8846e2",
+      "sources": {
+        "generator": {
+          "archive": "historical-provenance-generation-sources-sources-generator-archive",
+          "sha256": "a62a65ff00f6082bbfc0d24a67157dbf842dbacb1e68f311946089d778ff1eb4",
+          "revision": "0cff585eff44571bcb6917e006ecdd65446fdfe0"
+        },
+        "compiler": {
+          "archive": "historical-provenance-generation-sources-sources-compiler-archive",
+          "sha256": "35f560686b273206adfc5e6aa4075111aec8eeb542d9721e60db84853dfb9cee",
+          "revision": "9fb14833713449403104c8a77cb10973130993e1"
+        }
+      },
+      "dependencies": {
+        "@bitauth/libauth": {
+          "version": "3.1.0-next.8",
+          "packageJsonSha256": "6b4e3b7f062b80782c62cb7732ed01571c5f163fd786af877c0ae5fdc33ec65e"
+        },
+        "@noble/curves": {
+          "version": "2.2.0",
+          "packageJsonSha256": "b305a9a8e20df7767458bff98aafb7423cb39e00f543fffea5a9e0b88e0ada9e"
+        }
+      },
+      "typescript": "5.9.3"
+    },
+    "driver": "scripts/prepare-gated-driver.mjs (12 transaction inputs; factory at 11)",
+    "mode": "rekeyed",
+    "cuts": "40,82,117,158,201,238,277,313,348",
+    "planningProof": {
+      "label": "L1",
+      "file": "historical-provenance-generation-planningProof-file",
+      "fileSha256": "74ce8fb9b3b56df20291b867b90b2bcc1823056a4de212ea7bf6adf937a5633e",
+      "programVkeyHash": "00a963b10a250de2de04b92d836a852eb0709f62ea9e40d5c191b1c22921fae8",
+      "note": "Retained proof of another program, used only to construct and measure the local verifier graph; terminal refusal is expected."
+    }
+  },
+  "graph": {
+    "inputs": 11,
+    "transactionInputs": 12,
+    "factoryInputIndex": 11,
+    "root": "aa207279097d5add3d3bde8044526a79be41415946596725f6681cf3c788cbc5cad187",
+    "lockings": [
+      "aa207279097d5add3d3bde8044526a79be41415946596725f6681cf3c788cbc5cad187",
+      "aa207e6982ec1a4ebb408c27eb26efd5c48ea5cfcdfffcbd21bf0665f2078fd6cf0287",
+      "aa20155ae14796adc96ffe43b008d95afda1d18c0c0da75f9c814f648f5e1c54f89987",
+      "aa20bb62c96f018ff4e7144cee43274e7a49927d4d74cfe6fb0e488f2c6aa9d4885c87",
+      "aa200752851e4254b627b8506eaee320ac67c058b2e51f4af8a7dc51ccfef035253387",
+      "aa20b31580fc1705da4546c617ad9305f9a525c223cea2546e63131d49544b49932187",
+      "aa20e36eee861fb60902f430af47721dfa0f8b4ad84af0521791a7c3d075ccc7bab987",
+      "aa2090673ea404c786ad315b102ec82966d1e61f89532479917168a08217bdcfda5787",
+      "aa207b357728b75c03faf6821f3b49a16fafb312c49bad82755634d699c204989fcc87",
+      "aa2075ed5baba4551555ac844583af3850c54b10ea78bc1cff82f880bd1dd5679b3687",
+      "aa2014f45bb159b6e072ed2cc11296b202adeff465e0c7e05ef285266027cac1c7cc87"
+    ],
+    "lockingsSha256": "b3ad0fc7c3aa0328d22276f442bbf1b3b5d58dfa98eda0219a9f5593ac862468",
+    "planningProofUnlockingBytes": [
+      6912,
+      8067,
+      9157,
+      9451,
+      7828,
+      9416,
+      9742,
+      8459,
+      8889,
+      8057,
+      9670
+    ],
+    "generatedSourcesSha256": {
+      "manifest_millerres.json": "cdb4845c7e723e3378a83cfebd683b76b1ea704d81bdeded200457cc40cc0583",
+      "millerres_00.cash": "fa3c75b5e9ee87ded539811a1e056e16ef10bd9ad4810013a191be464607156e",
+      "millerres_01.cash": "3748da4d2b8ef73a6c94ba25873191c54ab6358c01bce1d4c92a6692dbfc6592",
+      "millerres_02.cash": "a59954ea1388c67d6c5b85d0162f13b0e7e4fc5d873e24099baeebd83f79fb65",
+      "millerres_03.cash": "4bbab5a01b91325ad8d532ae48781251f53b5df9a59ac5ba37973ca03c141e48",
+      "millerres_04.cash": "915e6047fbe7e4f69d59b067c2c455489d3f6edef381e30b24f5948120cfea55",
+      "millerres_05.cash": "fc1fb5105a58a8b9d2220c975ae596a394b79cdfe19acce91290ac0208a38570",
+      "millerres_06.cash": "15814f677aa6347ace0596d03f0c49ff2d9a9d7b092e682c550277a931617650",
+      "millerres_07.cash": "f4b6000f64b0e912dc7f62818471a0146bd764b5277656fae7664af8c0383774",
+      "millerres_08.cash": "76c9857bd2cc8cdc7ac24adb98f076a2444abe65b2427c92683fc2a05ec61ef2"
+    }
+  },
+  "controls": {
+    "planningProofAcceptance": [
+      {
+        "index": 0,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 1,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 2,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 3,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 4,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 5,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 6,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 7,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 8,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 9,
+        "consensus": true,
+        "standard": true
+      },
+      {
+        "index": 10,
+        "consensus": false,
+        "standard": false
+      }
+    ],
+    "onlyTerminalRefusesThePlanningProof": true,
+    "honestGraphOfPlanningProofKeyRoot": "aa20731f5802b9f3a7e897b5fd76292e5e3d56e7ba8c7f22173315969b216a20226787",
+    "differingGeneratedFiles": [
+      "manifest_millerres.json",
+      "millerres_08.cash"
+    ],
+    "everyLockingDiffersFromHonestGraph": true,
+    "fixedFactor": {
+      "limbs": [
+        "9688753201715655983036132771746347859335927547016260787613122991946488119539",
+        "15149564053534969788789055834595976222037904837845603438607498993370432468179",
+        "13280557907091814248229833288603199351709193383110557630361697056403802197499",
+        "3325549635685453006142196260468587080853158514254341779790496786290973951566",
+        "1674501256458598573488998193760939909570383234436781292744094956717465608299",
+        "3585221097623929817105333010493205312836818498861469065097364793439613548741"
+      ],
+      "relationToLocalKeyPairings": "equal",
+      "relationToPlanningProofKey": "none"
+    },
+    "fullVariantMapReproducedGraph": true,
+    "localProofExecuted": false,
+    "localProofVerified": false
+  }
+}

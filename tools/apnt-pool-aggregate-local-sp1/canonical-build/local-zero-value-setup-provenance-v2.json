@@ -1,0 +1,15 @@
+{
+  "schema": "apnt-pool-aggregate-local-setup-provenance-v2",
+  "label": "LOCAL 0x99 - SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY",
+  "priorPinRecord": "tools/apnt-pool-aggregate-local-sp1/canonical-build/local-zero-value-canonical-build-v1.json",
+  "sourceRun": "historical-record",
+  "sourceReport": "historical-provenance-sourceReport",
+  "sdkSetupCallsAcrossSourceRun": 3,
+  "breakdown": {
+    "localCanonicalKeyDerivation": 1,
+    "chipnetUnchangedControl": 1,
+    "localRepeatedVkeyProbe": 1
+  },
+  "proveCallsAcrossSourceRun": 0,
+  "note": "Versioned correction to the source run's total. The v1 pin's count of two was recorded before the repeated local VKey probe. This record changes no ELF, VKey, graph, source-input digest, or ceremony material."
+}

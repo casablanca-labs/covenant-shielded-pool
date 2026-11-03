@@ -1,0 +1,31 @@
+[package]
+license = "MIT"
+name = "apnt-pool-aggregate-core"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+bn = { version = "=0.6.0", package = "substrate-bn-succinct-rs" }
+k256 = { version = "=0.13.4", default-features = false, features = ["arithmetic"] }
+sha2 = { version = "=0.10.9", default-features = false }
+
+[features]
+# Compiles three forgeable keys' profile ids into the allowlist, so
+# execute-only tests can run honest positives and the refusals beside them:
+# two DEVELOPMENT ZERO-VALUE keys of revision 2 (toxic waste not destroyed;
+# the action circuit's development key and a stand-in key of the same public
+# shape) and revision 3's recorded Chipnet vp (SIMULATED SINGLE-PARTY SETUP -
+# ZERO-VALUE TEST ONLY; ENG-486) (src/profile.rs). The default build's
+# allowlist is empty. No canonical build enables this.
+development-zero-value-test-profile = []
+# The labelled Chipnet build (task 5.4 slice 2a, ENG-510): compiles exactly
+# registry entry 1 revision 3's recorded Chipnet vp (SIMULATED SINGLE-PARTY
+# SETUP - ZERO-VALUE TEST ONLY) into the allowlist, nothing else. Only the
+# program-chipnet-zero-value-rev3 package enables it; it cannot be combined
+# with the development profile (src/profile.rs refuses to compile).
+chipnet-zero-value-rev3-profile = []
+
+[dev-dependencies]
+hex = "=0.4.3"
+serde_json = "=1.0.145"

@@ -1,0 +1,31 @@
+[package]
+license = "MIT"
+name = "apnt-pool-aggregate-program-chipnet-zero-value-rev3"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "APNT pool aggregate guest, labelled Chipnet build: allowlists exactly registry entry 1 revision 3's Chipnet vp. SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY; never mainnet, never value."
+
+# The labelled Chipnet build of the pool aggregate guest (task 5.4 slice 2a,
+# ENG-510). It compiles the same source as ../program (the default build) with
+# the core's `chipnet-zero-value-rev3-profile` feature, so its compiled
+# allowlist is exactly registry entry 1 revision 3's recorded Chipnet
+# zero-value vp (profile id ea3d52d7...). It is its own package and binary, so
+# it is a distinct program with its own program key, and its name carries the
+# label. Built only through tools/sp1-canonical-guest-build
+# (`pool-aggregate-chipnet-zero-value-rev3`); pinned in
+# ../canonical-build/chipnet-zero-value-rev3-canonical-build-v1.json.
+[[bin]]
+name = "apnt-pool-aggregate-program-chipnet-zero-value-rev3"
+path = "../program/src/main.rs"
+
+[dependencies]
+apnt-pool-aggregate-core = { path = "../core", features = ["chipnet-zero-value-rev3-profile"] }
+sp1-zkvm = "=6.3.1"
+
+[package.metadata.apnt]
+label = "SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY"
+network = "chipnet"
+registry-entry = 1
+registry-revision = 3
+allowlist = ["ea3d52d762f394b2959740126c3fb441165236696a02314a19498b48e2f1c1f2"]

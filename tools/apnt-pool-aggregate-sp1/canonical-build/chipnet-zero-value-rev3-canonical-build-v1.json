@@ -1,0 +1,104 @@
+{
+  "schema": "apnt-pool-aggregate-canonical-build-record-v1",
+  "label": "SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY",
+  "note": "The labelled Chipnet build of the pool aggregate guest (task 5.4 slice 2a, historical-record, historical-record). Its compiled allowlist is exactly registry entry 1 revision 3 Chipnet zero-value vp, the verifying key of a simulated single-party ceremony under which the project could forge proofs: every proof this program verifies, and every aggregate proof of it, is zero-value test evidence only. Never a mainnet or value build.",
+  "record": {
+    "builder": "tools/sp1-canonical-guest-build/canonical-guest-build.sh",
+    "guestKey": "pool-aggregate-chipnet-zero-value-rev3",
+    "package": "apnt-pool-aggregate-program-chipnet-zero-value-rev3",
+    "binary": "apnt-pool-aggregate-program-chipnet-zero-value-rev3",
+    "guestSource": "tools/apnt-pool-aggregate-sp1/program/src/main.rs",
+    "coreFeature": "chipnet-zero-value-rev3-profile",
+    "cargoFeaturesOnCommandLine": [],
+    "sp1Version": "6.3.1",
+    "containerImage": "ghcr.io/succinctlabs/sp1@sha256:0942a27dbe8e38f4b14f3732e779df4027b17bde93e9fbc9e8c773c15eb63400",
+    "workspaceMountPath": "/root/program",
+    "workspaceDirectoryArgument": "repository-root",
+    "locked": true,
+    "sourceCommit": "52447b69658c294b23d2588c20a92f37ea4b0074",
+    "guestInputs": {
+      "domain": "BCH Cloak APNT pool aggregate guest inputs v1\\0",
+      "paths": [
+        "tools/apnt-pool-aggregate-sp1/Cargo.toml",
+        "tools/apnt-pool-aggregate-sp1/Cargo.lock",
+        "tools/apnt-pool-aggregate-sp1/core",
+        "tools/apnt-pool-aggregate-sp1/program",
+        "tools/apnt-pool-aggregate-sp1/program-chipnet-zero-value-rev3"
+      ],
+      "files": 15,
+      "sha256": "0f7ba23d62a263e200baee3677bc908a5c9c04614a8ebc36afc543247b401e50"
+    },
+    "compiledAllowlist": [
+      "ea3d52d762f394b2959740126c3fb441165236696a02314a19498b48e2f1c1f2"
+    ],
+    "allowlistedVp": {
+      "registryEntry": 1,
+      "registryRevision": 3,
+      "vpBytes": 528,
+      "vpSha256": "35c2bdb2e52ce2f2795e9ef57445a2e11f96836345b3829ebe6520e3603860ff",
+      "profileId": "ea3d52d762f394b2959740126c3fb441165236696a02314a19498b48e2f1c1f2",
+      "label": "SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY"
+    },
+    "buildLabel": "APNT pool aggregate, Chipnet build, registry entry 1 revision 3: SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY; never mainnet, never value",
+    "guestElfSha256": "46092a6935692fb202ed995d49e90a9f5e46eb3f107d56eb0f491dea9e7ce601",
+    "guestElfBytes": 443800,
+    "programVkeyHash": "00a69d739feae9fecf1ad3db30a73f967912fda951c849e374492f1a14fd7fed"
+  },
+  "reproduction": {
+    "arms": [
+      {
+        "checkout": "lane worktree",
+        "checkoutPathLength": 56,
+        "guestElfSha256": "46092a6935692fb202ed995d49e90a9f5e46eb3f107d56eb0f491dea9e7ce601",
+        "guestElfBytes": 443800,
+        "programVkeyHash": "00a69d739feae9fecf1ad3db30a73f967912fda951c849e374492f1a14fd7fed"
+      },
+      {
+        "checkout": "fresh clone of the source commit under /private/tmp",
+        "checkoutPathLength": 105,
+        "guestElfSha256": "46092a6935692fb202ed995d49e90a9f5e46eb3f107d56eb0f491dea9e7ce601",
+        "guestElfBytes": 443800,
+        "programVkeyHash": "00a69d739feae9fecf1ad3db30a73f967912fda951c849e374492f1a14fd7fed"
+      }
+    ],
+    "byteIdentical": true,
+    "hostPathStringsInCanonicalElf": {
+      "machine-home-prefix": 0,
+      "/private/tmp": 0
+    },
+    "controls": {
+      "nonCanonicalAtBothCheckoutPaths": {
+        "guestElfSha256": "105d8f7f84977bbf82bec3b5caf04a34fb6fd612bb1e22c8cdbfa3a8a54f60e5",
+        "guestElfBytes": 444144,
+        "identicalAcrossCheckoutPaths": true,
+        "hostHomeCargoPathStrings": 29,
+        "reading": "This workspace has no path dependency outside its Cargo root and its ELF embeds no checkout path, so even a plain build agrees across the two checkout paths: two-path agreement alone does not show what the container adds for this guest."
+      },
+      "nonCanonicalWithAnotherCargoHome": {
+        "guestElfSha256": "5a79ad758feb2409ddaf0ef4a13a52f8f2b7ac5ede6dc9d906243ee7c422abb3",
+        "guestElfBytes": 445920,
+        "differsFromDefaultHome": true,
+        "alternateHomePathStrings": 29,
+        "reading": "A plain build embeds 29 absolute CARGO_HOME source paths and moves with the host home. The canonical ELF embeds none: the container is what makes it independent of the host home and of the host compiler."
+      }
+    },
+    "setupCallsThisRound": 4,
+    "proveCallsThisRound": 0,
+    "setupPeakRssBytes": [
+      7823474688,
+      7781974016,
+      7796260864,
+      7784022016
+    ]
+  },
+  "defaultBuild": {
+    "note": "The default build of the same guest source (empty allowlist), built canonically beside it as the refusal control; not a deployable program.",
+    "guestKey": "pool-aggregate-default",
+    "package": "apnt-pool-aggregate-program",
+    "compiledAllowlist": [],
+    "guestElfSha256": "875d1658f168359ae43a35ad1795e623b13f0dfefb1cec4733ee5cac7c7e6aa2",
+    "guestElfBytes": 127848,
+    "programVkeyHash": "006d0956bffbd2bc2729c0eea170a37f147bcf7a0493ddc0da15896614c8781a",
+    "byteIdenticalAcrossBothArms": true
+  }
+}

@@ -1,0 +1,97 @@
+// APNT shielded pool v1: the root-copy covenant (task 3.3).
+//
+// Target: protocol-design, "Note tree,
+// root copies and the tree update"; specs/apnt-pool-note-tree/spec.md, "Roots
+// are carried by interchangeable root copies".
+//
+// Maturity: new. Deterministic local-VM evidence only
+// (packages/reference-aggregator/test/apnt_pool_tree_covenants_v1_local_vm.test.ts).
+// Not deployed, not frozen, not a chain claim.
+//
+// A root copy is a keyless UTXO under this lock holding an immutable NFT of
+// the root category T whose 32-byte commitment is a folded root. A copy is
+// spent only by a settlement, which recreates it:
+//
+//   authority   input 0 carries a verdict-category token with no capability
+//               and is under the pool settlement lock (the settlement
+//               authority of apnt-pool-settlement-custody);
+//   recreation  the hinted output o is under this same lock and carries this
+//               input's token category (with its capability byte) and
+//               commitment, and at least this input's value;
+//   rank        the inputs before this one under this lock number exactly as
+//               many as the outputs before o under this lock. Distinct copy
+//               inputs therefore map to distinct outputs, so two copies of
+//               one root cannot be recreated as one.
+//
+// The covenant compares the output with this input's own token rather than
+// with a pinned category: whatever sits under this lock is recreated
+// unchanged. Only T's immutable NFTs are copies; the settlement covenant
+// (task 3.4, check 3) must require the root category with no capability, and
+// cannot identify copies by this lock, because this lock embeds the
+// settlement lock.
+//
+// Unlocking data (before the P2SH32 redeem push): <o>.
+//
+// Cost: the rank loops read every input before this one and every output
+// before o, so a copy placed early in the settlement is cheaper.
+//
+// `//@check NAME` … `//@end` mark one covenant check; the local-VM tests remove
+// one at a time.
+//
+// Local VM acceptance is not chain validation, proof verification, wallet
+// acceptance or spendability.
+
+// Stack on entry: o.
+
+// Settlement authority: input 0 holds a verdict-category token with no
+// capability ...
+//@check AUTH_CATEGORY
+<0> OP_UTXOTOKENCATEGORY @VERDICT_CATEGORY_PUSH@ OP_EQUALVERIFY
+//@end
+// ... under the pool settlement lock.
+//@check AUTH_LOCK
+<0> OP_UTXOBYTECODE @SETTLEMENT_LOCK_PUSH@ OP_EQUALVERIFY
+//@end
+
+// Output o recreates this copy.
+//@check OUT_LOCK
+OP_DUP OP_OUTPUTBYTECODE OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUALVERIFY
+//@end
+//@check OUT_CATEGORY
+OP_DUP OP_OUTPUTTOKENCATEGORY OP_INPUTINDEX OP_UTXOTOKENCATEGORY OP_EQUALVERIFY
+//@end
+//@check OUT_COMMITMENT
+OP_DUP OP_OUTPUTTOKENCOMMITMENT OP_INPUTINDEX OP_UTXOTOKENCOMMITMENT OP_EQUALVERIFY
+//@end
+//@check OUT_VALUE
+OP_DUP OP_OUTPUTVALUE OP_INPUTINDEX OP_UTXOVALUE OP_GREATERTHANOREQUAL OP_VERIFY
+//@end
+
+//@check RANK
+OP_INPUTINDEX OP_UTXOBYTECODE <0> <0>
+// Stack: o L count idx, with L this input's locking bytecode.
+OP_INPUTINDEX OP_OVER OP_GREATERTHAN
+OP_IF
+  OP_BEGIN
+    OP_DUP OP_UTXOBYTECODE <3> OP_PICK OP_EQUAL
+    OP_ROT OP_ADD OP_SWAP OP_1ADD
+    OP_DUP OP_INPUTINDEX OP_NUMEQUAL
+  OP_UNTIL
+OP_ENDIF
+OP_DROP
+<0> <0>
+// Stack: o L rank_in count idx.
+<4> OP_PICK OP_OVER OP_GREATERTHAN
+OP_IF
+  OP_BEGIN
+    OP_DUP OP_OUTPUTBYTECODE <4> OP_PICK OP_EQUAL
+    OP_ROT OP_ADD OP_SWAP OP_1ADD
+    OP_DUP <5> OP_PICK OP_NUMEQUAL
+  OP_UNTIL
+OP_ENDIF
+OP_DROP
+// Stack: o L rank_in rank_out.
+OP_NUMEQUALVERIFY OP_DROP
+//@end
+
+OP_DROP <1>

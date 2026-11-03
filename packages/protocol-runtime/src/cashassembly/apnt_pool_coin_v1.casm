@@ -1,0 +1,60 @@
+// APNT shielded pool v1: the pool-coin covenant (task 3.4).
+//
+// Target: protocol-design, "Settlement
+// and the proof verdict"; specs/apnt-pool-settlement-custody/spec.md, "Pool
+// state changes only under the settlement authority".
+//
+// Maturity: new. Deterministic local-VM evidence only
+// (packages/reference-aggregator/test/apnt_pool_settlement_covenant_v1_local_vm.test.ts).
+// Not deployed, not frozen, not a chain claim.
+//
+// A pool coin is a keyless, token-free UTXO under this lock holding pooled
+// BCH. Pool coins are interchangeable: nothing on them names a note, owner or
+// action. This covenant admits a spend only under the settlement authority:
+//
+//   authority   input 0 carries a verdict-category token with no capability
+//               (a 32-byte category, no capability byte) and is under the pool
+//               settlement lock.
+//
+// Everything else is the settlement covenant's (checks 5 and 7): it sums
+// every input under this lock and requires the pool-coin outputs after the
+// withdrawals to carry exactly Σ in + Σ deposit − Σ withdrawal − Σ fee,
+// token-free. So a settlement can use any pool coins, and can be rebuilt
+// around a pool coin another settlement spent first, with the same proof and
+// signatures.
+//
+// This lock embeds the settlement lock, so the settlement lock cannot embed
+// this one (P2SH32 hashes would be circular). The settlement covenant instead
+// derives this lock at run time from its own locking bytecode and its own
+// token category, byte for byte:
+//
+//   redeem = PREFIX ‖ settlement lock ‖ MIDDLE ‖ verdict category ‖ TAIL
+//          = 0x23 ‖ L (35 B) ‖ 0x20 ‖ V (32 B) ‖ TAIL
+//
+// which is why the two constants are pushed first and the checks follow.
+// The builder (apnt_pool_settlement_covenant_v1.ts) reads PREFIX, MIDDLE and
+// TAIL from this source's compiled bytes, so the two cannot drift apart.
+//
+// Unlocking data: the P2SH32 redeem push only.
+//
+// `//@check NAME` … `//@end` mark one covenant check; the local-VM tests remove
+// one at a time (replacing it with its `//@ablated` text), which keeps the
+// redeem's PREFIX ‖ L ‖ MIDDLE ‖ V shape.
+//
+// Local VM acceptance is not chain validation, proof verification, wallet
+// acceptance or spendability.
+
+@SETTLEMENT_LOCK_PUSH@ @VERDICT_CATEGORY_PUSH@
+// Stack: L V.
+
+// Settlement authority: input 0 holds a verdict-category token with no
+// capability ...
+//@check AUTH_CATEGORY
+<0> OP_UTXOTOKENCATEGORY OP_EQUALVERIFY
+//@ablated OP_DROP
+//@end
+// ... under the pool settlement lock.
+//@check AUTH_LOCK
+<0> OP_UTXOBYTECODE OP_EQUAL
+//@ablated OP_DROP <1>
+//@end

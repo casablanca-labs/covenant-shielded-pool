@@ -1,0 +1,26 @@
+[package]
+license = "MIT"
+name = "apnt-pool-aggregate-runner"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Execute-only by default: without the `prove` feature this runner has no
+# proving path. It loads a guest ELF from a path, so it never embeds one; an
+# ELF built in a worktree is path-dependent (AGENTS.md) and its digest is
+# recorded as a measurement, never as a pin.
+[dependencies]
+anyhow = "=1.0.98"
+apnt-pool-aggregate-core = { path = "../core" }
+hex = "=0.4.3"
+libc = "=0.2.189"
+serde_json = "=1.0.145"
+sha2 = "=0.10.9"
+sp1-sdk = { version = "=6.3.1", default-features = false, features = ["blocking", "profiling"] }
+
+[features]
+# Task 5.4 slice 2b's proving path (ENG-510 writes it, slice 2b runs it): one
+# SP1 setup and one Groth16 aggregate proof of the pinned canonical Chipnet
+# ELF over a v5 statement. Reached only through scripts/aggregate-proof-runner.sh,
+# which holds the machine's gates. Adds no dependency.
+prove = []

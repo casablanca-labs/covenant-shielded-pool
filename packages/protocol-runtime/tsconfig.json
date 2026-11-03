@@ -1,0 +1,34 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "files": [
+    "../../packages/protocol-runtime/src/apnt_cashassembly_compiler_v0.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_action_record_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_action_relation_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_action_witness_json_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_bchn_vm.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_contract_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_dev_projection_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_dev_verifier_installation_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_frontier_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_genesis_builder_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_genesis_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_inbox_covenant_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_migration_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_note_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_range_record_covenant_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_range_record_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_settlement_covenant_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_settlement_history_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_statement_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_transaction_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_tree_covenants_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_tree_v1.ts",
+    "../../packages/protocol-runtime/src/apnt_pool_verdict_factory_v1.ts",
+    "../../packages/protocol-runtime/src/bytes.ts",
+    "../../packages/protocol-runtime/src/index.ts"
+  ]
+}

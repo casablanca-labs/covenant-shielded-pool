@@ -1,0 +1,51 @@
+// APNT shielded pool v1: the pending-batch lock (task 3.3).
+//
+// Target: protocol-design, "Note tree,
+// root copies and the tree update": "The pending lock allows spending only as
+// input 1 of a tree-update transaction." Layout historical-record F1: the lock commits
+// the batch's leaf list (historical-record, historical-record's measured revision; historical-record).
+//
+// Maturity: new. Deterministic local-VM evidence only
+// (packages/reference-aggregator/test/apnt_pool_tree_covenants_v1_local_vm.test.ts).
+// Not deployed, not frozen, not a chain claim.
+//
+// A settlement moves its verdict token (verdict category, no capability,
+// commitment SHA-256(S)) to output 0 under this lock, with the fold bounty
+// (task 3.4, check 6). The redeem is
+//
+//   <H_cm> OP_DROP ‖ PCODE,  H_cm = SHA-256(cm_{1,0} ‖ cm_{1,1} ‖ … ‖ cm_{B,1})
+//
+// the batch's leaves in statement order, which the settlement computes from
+// its own S. So each settled batch has its own pending lock, and the fold
+// (the tree-update covenant) reads H_cm from this redeem and pushes the 64·B
+// bytes of leaves instead of S. PCODE, the code below the data push, admits a
+// spend only:
+//
+//   position    as input 1;
+//   fold        beside input 0 carrying the root category T's minting NFT,
+//               which only the tree update holds (audited genesis, then the
+//               tree-update covenant recreating it under its own lock).
+//
+// The tree-update covenant then folds the leaves and burns the token. So a
+// pending verdict can be neither spent without its fold nor burned in a fold
+// of another batch: burning it unfolded would leave the batch's notes out of
+// the tree for good.
+//
+// The lock names T, not the tree-update lock: the tree-update covenant embeds
+// this redeem's layout, so this lock cannot embed it. The settlement and the
+// tree update read the layout <H_cm> OP_DROP ‖ PCODE from this source's
+// compiled bytes (apnt_pool_tree_covenants_v1.ts), so they cannot drift apart.
+//
+// Unlocking data: the P2SH32 redeem push only.
+//
+// Local VM acceptance is not chain validation, proof verification, wallet
+// acceptance or spendability.
+
+@LEAF_LIST_DIGEST_PUSH@ OP_DROP
+//@check PENDING_INDEX
+OP_INPUTINDEX <1> OP_NUMEQUALVERIFY
+//@end
+//@check FOLD_AT_INPUT_0
+<0> OP_UTXOTOKENCATEGORY @ROOT_CATEGORY_MINTING_PUSH@ OP_EQUALVERIFY
+//@end
+<1>

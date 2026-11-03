@@ -1,0 +1,116 @@
+// APNT pool one-transaction verdict factory v0.
+//
+// RESEARCH PROTOTYPE — NOT REVIEWED (historical-record, historical-record/232). Not frozen, not
+// deployed, no chain claim. Local libauth VM evidence only
+// (tools/pool-onetx-verifier-prototype/scripts/measure-onetx.mjs).
+//
+// Target: protocol-design, "Settlement
+// and the proof verdict" (the verdict is an immutable NFT of category V that
+// commits runBind32 = SHA-256(S), under the pool settlement lock), with the
+// 33-transaction ladder replaced by the one-transaction residue verifier.
+//
+// This lock is the perpetual home of V's minting NFT. It mints the pool proof
+// verdicts in the SAME transaction as the verifier graph, and only for the
+// statements that graph verified.
+//
+//   inputs   0..N-1  the verifier graph (N = 11 for the residue construction)
+//            N       this factory, holding V with the minting capability
+//   outputs  0..M-1  the verdicts: immutable V NFTs under the settlement lock
+//            M       this factory, returned
+//            M+1     token-free change
+//
+// Checks (each is one //@check block; the tests remove them one at a time):
+//
+//   LAYOUT     this is input N; exactly N+1 inputs and M+2 outputs.
+//   OWN_TOKEN  this input's token is V with the minting capability.
+//   GRAPH_ROOT input 0's locking bytecode is the pinned root of the verifier
+//              graph. Each graph input pins its successor's locking bytecode
+//              and the last three pin their positions, so the root fixes all N
+//              programs: the SP1 wrapper key, the program key s0 (folded into
+//              the terminal's fixed pairing factor), and the zero exit code and
+//              zero nonce (their IC terms are absent from the MSM).
+//   VERDICTS   outputs 0..M-1: token category exactly V (an immutable NFT: a
+//              mutable or minting NFT's category carries a capability byte), no
+//              fungible amount, the settlement lock, at least the value floor,
+//              and a commitment of the size the mode requires.
+//   STATEMENT  the verdict commitments determine the wrapper's public scalar
+//              s1. In pool mode s1 = SHA-256(C_0 ‖ … ‖ C_{M-1}) with the top
+//              three bits cleared: SP1 6.3.1's hash_bn254 of the aggregate's
+//              public values, which are exactly the M runBind32 values in output
+//              order. Input 0's unlocking bytecode must then begin with
+//              0x4c84 ‖ LE32(s1) ‖ LE32(s3): the push of the 132-byte GLV genesis
+//              blob from which the graph's MSM takes its two runtime scalars,
+//              s3 being SP1 6.3.1's recursion key root, pinned here.
+//   FACTORY    output M returns this input's token (V, minting) to this input's
+//              locking bytecode, with an empty commitment, no fungible amount
+//              and no less value.
+//   CHANGE     output M+1 carries no token.
+//
+// Markers: @N@ @N_PLUS_1@ (numbers), @OUTPUT_COUNT_CHECK@, @M_VALUE@ and @M_PLUS_1_VALUE@
+// (fixed M: the constants M+2, M, M+1; variable M: 3 <= outputs <= MMAX+2, and M = outputs - 2
+// read from OP_TXOUTPUTCOUNT, so each verifier run may choose its own M), @V_MINTING_PUSH@,
+// @GRAPH_ROOT_PUSH@, @SETTLEMENT_LOCK_PUSH@, @VERDICT_FLOOR@, @S3_LE_PUSH@,
+// @COMMITMENT_SIZE_CHECK@ (pool: exactly 32 bytes; demo: non-empty),
+// @DIGEST@ (pool: OP_SHA256; demo-m1: empty, the commitment IS the digest),
+// @LOOP_INIT@ and @ACCUMULATE@ (fan-out shape (a) or (b), see the loop).
+//
+// A demo mode exists only so the retained SP1 proofs, whose public values are
+// the seal era's 179-byte APNTAGV3 layout rather than a pool statement, can run
+// through the same gate: demo-m1 commits C = SHA-256(public values) and skips
+// the hash; demo chunks commit the public values themselves, split over the M
+// verdicts. Pool mode differs from demo only in the two markers above.
+
+//@check LAYOUT
+OP_INPUTINDEX <@N@> OP_NUMEQUALVERIFY
+OP_TXINPUTCOUNT <@N_PLUS_1@> OP_NUMEQUALVERIFY
+OP_TXOUTPUTCOUNT @OUTPUT_COUNT_CHECK@
+//@end
+
+//@check OWN_TOKEN
+OP_INPUTINDEX OP_UTXOTOKENCATEGORY @V_MINTING_PUSH@ OP_EQUALVERIFY
+//@end
+
+//@check GRAPH_ROOT
+<0> OP_UTXOBYTECODE @GRAPH_ROOT_PUSH@ OP_EQUALVERIFY
+//@end
+
+// The verdict loop: stack [acc j], j = 0..M-1. Fan-out shape (a), distinct
+// verdicts: acc = C_0 ‖ … ‖ C_{j-1}. Shape (b), root copies: acc = C_0 and every
+// C_j must equal it (the aggregate then commits one Merkle root R = C_0).
+@LOOP_INIT@
+OP_BEGIN
+//@check VERDICTS
+  OP_DUP OP_OUTPUTTOKENCATEGORY OP_INPUTINDEX OP_UTXOTOKENCATEGORY <32> OP_SPLIT OP_DROP OP_EQUALVERIFY
+  OP_DUP OP_OUTPUTTOKENAMOUNT <0> OP_NUMEQUALVERIFY
+  OP_DUP OP_OUTPUTBYTECODE @SETTLEMENT_LOCK_PUSH@ OP_EQUALVERIFY
+  OP_DUP OP_OUTPUTVALUE <@VERDICT_FLOOR@> OP_GREATERTHANOREQUAL OP_VERIFY
+//@end
+  OP_DUP OP_OUTPUTTOKENCOMMITMENT
+//@check COMMITMENT_SIZE
+  @COMMITMENT_SIZE_CHECK@
+//@end
+  @ACCUMULATE@
+  OP_1ADD OP_DUP @M_VALUE@ OP_NUMEQUAL
+OP_UNTIL
+OP_DROP
+
+//@check STATEMENT
+@DIGEST@
+<1> OP_SPLIT OP_SWAP 0x011f OP_AND OP_SWAP OP_CAT OP_REVERSEBYTES
+0x024c84 OP_SWAP OP_CAT @S3_LE_PUSH@ OP_CAT
+<0> OP_INPUTBYTECODE <66> OP_SPLIT OP_DROP OP_EQUALVERIFY
+//@ablated OP_DROP
+//@end
+
+//@check FACTORY
+@M_VALUE@ OP_OUTPUTTOKENCATEGORY OP_INPUTINDEX OP_UTXOTOKENCATEGORY OP_EQUALVERIFY
+@M_VALUE@ OP_OUTPUTBYTECODE OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUALVERIFY
+@M_VALUE@ OP_OUTPUTTOKENCOMMITMENT <0> OP_EQUALVERIFY
+@M_VALUE@ OP_OUTPUTTOKENAMOUNT <0> OP_NUMEQUALVERIFY
+@M_VALUE@ OP_OUTPUTVALUE OP_INPUTINDEX OP_UTXOVALUE OP_GREATERTHANOREQUAL OP_VERIFY
+//@end
+
+//@check CHANGE
+@M_PLUS_1_VALUE@ OP_OUTPUTTOKENCATEGORY OP_SIZE OP_NIP OP_NOT
+//@ablated <1>
+//@end

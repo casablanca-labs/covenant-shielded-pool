@@ -1,0 +1,121 @@
+{
+  "covenants": [
+    {
+      "covenantSource": {
+        "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_pool_verdict_factory_v1.casm",
+        "sha256": "b52a29b9cedea9e878a53f340190fe46d97c2868de1a6c1516979ba8fc916805"
+      },
+      "id": "apnt-pool-verdict-factory-v1",
+      "network": "chipnet",
+      "pin": {
+        "referenceRedeemSha256": "33eb3d848ec5bbab25c766ae5f5502a701d0238b4bc02be1bcbffb292d56ec3b",
+        "sourceSha256": "b52a29b9cedea9e878a53f340190fe46d97c2868de1a6c1516979ba8fc916805"
+      },
+      "records": [
+        {
+          "publicPath": "tools/apnt-pool-aggregate-local-sp1/canonical-build/local-zero-value-canonical-build-v1.json",
+          "sha256": "34a2e0c0e02cc50b68a337d7774d0927be318cdcab61f916c04ebe04d22a27e8"
+        },
+        {
+          "publicPath": "tools/apnt-pool-aggregate-sp1/canonical-build/chipnet-zero-value-rev3-canonical-build-v1.json",
+          "sha256": "7efcce247693d89e71c711927f3c0c38c98a29dc983944e498adb15f7c1361ee"
+        },
+        {
+          "publicPath": "tools/pool-onetx-verifier-prototype/pool-key/chipnet-zero-value-rev3-graph-v1.json",
+          "sha256": "30c0fa0c96cc66bf1fc6d92859867aa15975b7d66b4cd9bdf3abb4d5df8f28c9"
+        },
+        {
+          "publicPath": "tools/pool-onetx-verifier-prototype/pool-key/local-zero-value-v1-graph.json",
+          "sha256": "dbde208d3edad701b99815fadfe553304037221a578c5ced13190ef5973a2fcd"
+        }
+      ],
+      "setup": "simulated single-party; zero-value tests only",
+      "source": {
+        "publicPath": "packages/protocol-runtime/src/apnt_pool_verdict_factory_v1.ts",
+        "sha256": "5ba292b70e685d5870ac6411edea9259222ec1fad0c7c10e4f1ca495cbcd6c7e"
+      }
+    }
+  ],
+  "schemaVersion": "shielded-pool-release-identities/1",
+  "verification": {
+    "command": "pnpm check:identities",
+    "executionClaim": "none; run the command to obtain local results",
+    "scope": "Checks published circuit metadata, action verifying-key bytes and derived profile, reassembled reference covenant bytecode, and pinned aggregate build/graph identities. No setup or proving.",
+    "unrun": [
+      "R1CS compilation and serialized R1CS byte hashing",
+      "Canonical aggregate ELF rebuild / byte hashing and program VKey derivation",
+      "Installed native runtime verification, setup qualification and live chain workflow"
+    ],
+    "test": "node --test scripts/check-identities.test.mjs; pnpm test:identities"
+  },
+  "network": "chipnet",
+  "label": "SIMULATED SINGLE-PARTY SETUP - ZERO-VALUE TEST ONLY",
+  "circuit": {
+    "idKind": "sha256 of gnark v0.16.3 serialized revision-3 R1CS",
+    "sha256": "7c32a8f691c8b3a60bd1c89364a9fc1a76b1a5fc576d21722eb4fc7f9155d31e",
+    "sizeBytes": 371275956,
+    "sources": [
+      {
+        "path": "tools/apnt-pool-action-circuit/registry.go",
+        "field": "Revision3R1CSSha256 / Revision3R1CSBytes"
+      },
+      {
+        "path": "packages/protocol-runtime/test-vectors/apnt-pool-v1-proof-system-registry-rev3-vectors.json",
+        "field": "chipnetZeroValueVp.provenance.r1csSha256"
+      }
+    ]
+  },
+  "actionVerifyingKey": {
+    "sha256": "35c2bdb2e52ce2f2795e9ef57445a2e11f96836345b3829ebe6520e3603860ff",
+    "sizeBytes": 528,
+    "sources": [
+      {
+        "path": "packages/protocol-runtime/test-vectors/apnt-pool-v1-proof-system-registry-rev3-vectors.json",
+        "field": "chipnetZeroValueVp.vp (published compressed verifying-key bytes)"
+      },
+      {
+        "path": "tools/apnt-pool-action-circuit/registry.go",
+        "field": "ChipnetZeroValueRevision3VPHex / ChipnetZeroValueRevision3VPSha256"
+      }
+    ]
+  },
+  "actionProfile": {
+    "systemId": 1,
+    "registryRevision": 3,
+    "id": "ea3d52d762f394b2959740126c3fb441165236696a02314a19498b48e2f1c1f2",
+    "derivation": "SHA-256(UTF8(APNT-POOL-v1:profile) || u16le(systemId) || u64le(vp.length) || vp)",
+    "sources": [
+      {
+        "path": "packages/protocol-runtime/src/apnt_pool_statement_v1.ts",
+        "field": "deriveAPNTPoolProfileIdV1"
+      },
+      {
+        "path": "packages/protocol-runtime/test-vectors/apnt-pool-v1-proof-system-registry-rev3-vectors.json",
+        "field": "chipnetZeroValueVp.profileId"
+      },
+      {
+        "path": "tools/apnt-pool-aggregate-sp1/canonical-build/chipnet-zero-value-rev3-canonical-build-v1.json",
+        "field": "record.compiledAllowlist / record.allowlistedVp"
+      }
+    ]
+  },
+  "aggregate": {
+    "guestElfSha256": "46092a6935692fb202ed995d49e90a9f5e46eb3f107d56eb0f491dea9e7ce601",
+    "guestElfBytes": 443800,
+    "programVkeyHash": "00a69d739feae9fecf1ad3db30a73f967912fda951c849e374492f1a14fd7fed",
+    "sources": [
+      {
+        "path": "tools/apnt-pool-aggregate-sp1/canonical-build/chipnet-zero-value-rev3-canonical-build-v1.json",
+        "field": "record.guestElfSha256 / guestElfBytes / programVkeyHash"
+      },
+      {
+        "path": "tools/pool-onetx-verifier-prototype/pool-key/chipnet-zero-value-rev3-graph-v1.json",
+        "field": "program"
+      },
+      {
+        "path": "tools/apnt-pool-aggregate-sp1/canonical-build/chipnet-zero-value-rev3-canonical-elf.SHA256SUMS",
+        "field": "apnt-pool-aggregate-program-chipnet-zero-value-rev3"
+      }
+    ]
+  }
+}

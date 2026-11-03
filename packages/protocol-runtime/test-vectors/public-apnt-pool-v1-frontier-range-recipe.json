@@ -1,0 +1,89 @@
+{
+  "schema": "public-apnt-frontier-range-recipe/1",
+  "domain": "BCH-CLOAK/APNT-POOL-V1/PUBLIC-REFERENCE/2026-10-25/R-3289/v1",
+  "sources": [
+    {
+      "path": "packages/protocol-runtime/src/apnt_pool_action_record_v1.ts",
+      "sha256": "9cf894326ee04edb389025ef2fe6906b7aa77bf169a25e623e8191530b4a89cb",
+      "sizeBytes": 8271
+    },
+    {
+      "path": "packages/protocol-runtime/src/apnt_pool_action_relation_v1.ts",
+      "sha256": "b4dcb013ed4d5e3bd563f6a75057ae7ed7a94ddbea6e60f65e4c8ea8b7b4c424",
+      "sizeBytes": 12087
+    },
+    {
+      "path": "packages/protocol-runtime/src/apnt_pool_action_witness_json_v1.ts",
+      "sha256": "47615fd3882814c33bf67ba25e87e83f8426b03976e7d5c9c6479be58eca85f4",
+      "sizeBytes": 1533
+    },
+    {
+      "path": "packages/protocol-runtime/src/apnt_pool_contract_v1.ts",
+      "sha256": "2ffc8e3ec1a15de30dd6adbef0ea37576f8890f96b89a3442cc8ef8297dc1b44",
+      "sizeBytes": 22012
+    },
+    {
+      "path": "packages/protocol-runtime/src/apnt_pool_note_v1.ts",
+      "sha256": "0baa8ccdccd411515c4c158c637ac2a1a4a03cee836586e35abfbad28a96712c",
+      "sizeBytes": 14775
+    },
+    {
+      "path": "packages/protocol-runtime/src/apnt_pool_statement_v1.ts",
+      "sha256": "10a2b00dda4cd9be633acc07e1bba3eba1f5641e28ab9161ae59e0d9678c7060",
+      "sizeBytes": 14372
+    },
+    {
+      "path": "packages/protocol-runtime/src/apnt_pool_tree_v1.ts",
+      "sha256": "c0e62fc1b073f8b4e6bef444661a93718b4933210b81f6d99c34e5aceb5dea58",
+      "sizeBytes": 5393
+    },
+    {
+      "path": "packages/protocol-runtime/src/bytes.ts",
+      "sha256": "d1c5a0520fd47576f95947055f812ea6c510a682b8a99b9438cf397d1dc8a70e",
+      "sizeBytes": 2410
+    },
+    {
+      "path": "packages/protocol-runtime/test-vectors/generate-public-apnt-pool-v1-frontier-range.ts",
+      "sha256": "6c2b31bfed09e4e06ad2b7465a52d3c9eb7948ee4339fd1230f3a4432e29976e",
+      "sizeBytes": 13104
+    },
+    {
+      "path": "packages/protocol-runtime/test-vectors/public-apnt-pool-v1-corpus-helpers.ts",
+      "sha256": "3115e3c214423a4ae67c72f2a11189079d12ef337ca4c623cb1f5af0522a2c66",
+      "sizeBytes": 6536
+    },
+    {
+      "path": "packages/protocol-runtime/test-vectors/public-apnt-pool-v1-frontier-range-context.ts",
+      "sha256": "8645b5b4d4f8f343aca2cdfaaac69ecdbf62039a5fc238ab17b8809a6dc27eb6",
+      "sizeBytes": 3035
+    },
+    {
+      "path": "packages/protocol-runtime/test-vectors/public-apnt-pool-v1-frontier-range-inputs.ts",
+      "sha256": "9355135560036ce7f3fd7d4d5922ca4f6f03ff284063e92f2c7641f3a5844de7",
+      "sizeBytes": 3318
+    },
+    {
+      "path": "packages/protocol-runtime/test-vectors/public-apnt-pool-v1-origin-audit.ts",
+      "sha256": "13b8f7825ca42e137ff6cc2778590badaf7a185faaf7b3688520bcf1bc2dfff7",
+      "sizeBytes": 7242
+    },
+    {
+      "path": "packages/protocol-runtime/test-vectors/public-apnt-pool-v1-origin.ts",
+      "sha256": "ff07b603c131ffe2f24025406349d8108ba8c4743a62e5f14071887102ffa604",
+      "sizeBytes": 8483
+    },
+    {
+      "path": "packages/protocol-runtime/test-vectors/public-apnt-pool-v1-recipe.ts",
+      "sha256": "b8262a0ae5a1439d0b4729ac9e0bbb83be73169673202d43d34bdd7670eec468",
+      "sizeBytes": 5446
+    }
+  ],
+  "outputs": [
+    "packages/protocol-runtime/test-vectors/public-apnt-pool-v1-frontier-vectors.json",
+    "packages/protocol-runtime/test-vectors/public-apnt-pool-v1-range-vectors.json"
+  ],
+  "node": "22.22.3",
+  "typescript": "5.9.3",
+  "nobleCurves": "1.9.7",
+  "inputs": "Only source-fixed public domain, complete frozen label manifest and protocol constants/dimensions. No old vector body, filesystem state, environment, clock, network or random input."
+}

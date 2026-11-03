@@ -1,0 +1,18 @@
+diff --git a/dist/chunks/cli-api.DqsSTaIi.js b/dist/chunks/cli-api.DqsSTaIi.js
+index fcab8a0b5dd81cbc6b08165da8caaab4f3b173a5..1f12c872e097ae52d6a4def99d329104b8f43ae2 100644
+--- a/dist/chunks/cli-api.DqsSTaIi.js
++++ b/dist/chunks/cli-api.DqsSTaIi.js
+@@ -11167,6 +11167,13 @@ class Vitest {
+    * Close the thread pool and exit the process
+    */
+   async exit(force = false) {
++    if (this.config.teardownTimeout === 0) {
++      await this.close();
++      if (force) {
++        process.exit();
++      }
++      return;
++    }
+     setTimeout(() => {
+       this.report("onProcessTimeout").then(() => {
+         console.warn(`close timed out after ${this.config.teardownTimeout}ms`);

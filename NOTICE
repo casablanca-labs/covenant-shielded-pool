@@ -1,0 +1,16 @@
+Covenant Shielded Pool rehearsal
+
+The project's original code is licensed under the MIT License. See LICENSE.
+Copyright (c) 2026 Casablanca Labs.
+
+Third-party dependencies retain their own copyrights and license terms.
+THIRD_PARTY_NOTICES.md describes the locked JavaScript, Go and Rust packages
+and pinned patches; THIRD_PARTY_NOTICES.json is the complete versioned inventory.
+THIRD_PARTY_NOTICES.txt retains their license and
+attribution texts. These notices do not relicense any upstream work.
+
+The repository contains patches/vitest-2.1.9.patch, a local modification of
+Vitest 2.1.9's exit handling when teardownTimeout is zero. Vitest remains MIT
+licensed; its upstream copyright and permission notice are retained in the
+third-party notices. The Rust Git patches are identified by their exact locked
+revisions in the inventory; their upstream terms remain in effect.
