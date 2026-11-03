@@ -42,7 +42,7 @@ Being held, accepted, a member of the tree, unspent and spendable are separate f
 
 An observer sees public transaction bytes, nullifiers, commitments, roots, re-randomized keys, signatures, packets, discovery tags, deposits, exits, fees, counts, timing and funding ancestry.
 
-From those public encodings alone, an observer doesn't get a general mapping from a nullifier to an earlier note, or a note's owner or value. That holds only under the stated assumptions. Known payments, conservation arithmetic, public deposits and exits, timing and small batches can all remove uncertainty. How much anonymity a pool gives depends on how many people use it: a spend's candidates are the notes folded before the root it uses, and anonymity becomes measurable as participants join.
+From those public encodings alone, an observer doesn't get a general mapping from a nullifier to an earlier note, or a note's owner or value. That holds only under the stated assumptions. Known payments, conservation arithmetic, public deposits and exits, timing and small batches can all remove uncertainty. How much anonymity a pool gives depends on how many people use it: a spend's structural candidate set is bounded by the notes folded before the root it uses, and anonymity becomes measurable as participants join.
 
 ## What custody rests on
 
